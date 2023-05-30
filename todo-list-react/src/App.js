@@ -1,9 +1,12 @@
-import styles from "./App.module.css";
+import styles from "./App.css";
 import { Dashboard } from "./components/Dashboard";
+import { Header } from "./components/layout/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className={styles.App}>
+      <Header />
       <Dashboard />
     </div>
   );
