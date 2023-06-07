@@ -8,7 +8,7 @@ public class TaskCreateRequest {
 
     @NotBlank
     private String taskTitle;
-    @NotBlank
+//    @NotBlank
     private String username;
     private String notes;
     private String expiryDate;

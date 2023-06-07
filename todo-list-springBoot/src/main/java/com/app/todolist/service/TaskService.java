@@ -30,7 +30,7 @@ public class TaskService {
     public Task createTask(TaskCreateRequest taskCreateRequest) throws NotFoundException, ValidationException {
         Task newTask = new Task();
         newTask.setTaskTitle(taskCreateRequest.getTaskTitle());
-        newTask.setUser(userService.getUser(taskCreateRequest.getUsername()));
+//        newTask.setUser(userService.getUser(taskCreateRequest.getUsername()));
         try {
             if(taskCreateRequest.getExpiryDate()!=null && !taskCreateRequest.getExpiryDate().isBlank()) {
                 newTask.setExpiryDate(LocalDate.parse(taskCreateRequest.getExpiryDate(), dateFormatter));
