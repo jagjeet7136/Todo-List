@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @Validated
 @RequestMapping("task")
+@CrossOrigin  //Only for local
 public class TaskController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class TaskController {
         log.info("Request Received for creating a task {}", taskCreateRequest);
         Task task = taskService.createTask(taskCreateRequest);
         log.info("Task created {}", task);
-        return ResponseEntity.ok(task);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PatchMapping
@@ -55,6 +56,6 @@ public class TaskController {
         log.info("Request received for deleting a task with taskId : {}", taskId);
         Task task = taskService.deleteTask(taskId);
         log.info("Task deleted successfully : {}", task);
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return ResponseEntity.ok(task);
     }
 }
