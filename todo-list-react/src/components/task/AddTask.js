@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import moment from "moment/moment";
+import { createTask } from "../../actions/projectActions";
+import axios from "axios";
+import { GET_ERRORS } from "../../actions/types";
+import styles from "./AddTask.module.css";
 
-export const AddTask = () => {
+export const AddTask = (props) => {
   const [enteredTaskTitle, setEnteredTaskTitle] = useState("");
   const [enteredNotes, setEnteredNotes] = useState("");
   const [enteredExpiryDate, setEnteredExpiryDate] = useState("");
   const [enteredReminder, setEnteredReminder] = useState("");
+  const [isFormValid, setIsFormValid] = useState(true);
+  let [errorMessage, setErrorMessage] = useState("");
 
   const titleChangeHandler = (event) => {
     setEnteredTaskTitle(event.target.value);
@@ -23,17 +30,30 @@ export const AddTask = () => {
     setEnteredReminder(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const useSubmitHandler = (event) => {
     event.preventDefault();
 
     const newTask = {
-      title: enteredTaskTitle,
+      taskTitle: enteredTaskTitle,
       notes: enteredNotes,
       expiryDate: new Date(enteredExpiryDate),
       reminder: new Date(enteredReminder),
     };
 
-    console.log(newTask);
+    axios
+      .post("http://localhost:2222/task", newTask)
+      .then((res) => {
+        console.log(res.data);
+        if (!isFormValid) {
+          setIsFormValid(true);
+        }
+      })
+      .catch((error) => {
+        errorMessage = error.response.data.errors[0];
+        setIsFormValid(false);
+        setErrorMessage(errorMessage);
+        console.log(errorMessage);
+      });
   };
 
   return (
@@ -44,7 +64,7 @@ export const AddTask = () => {
             <div className="col-md-8 m-auto">
               <h5 className="display-4 text-center">Create Task form</h5>
               <hr />
-              <form onSubmit={submitHandler}>
+              <form onSubmit={useSubmitHandler}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -53,14 +73,6 @@ export const AddTask = () => {
                     name="taskTitle"
                     value={enteredTaskTitle}
                     onChange={titleChangeHandler}
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    placeholder="Unique Project ID"
-                    disabled
                   />
                 </div>
 
@@ -92,6 +104,16 @@ export const AddTask = () => {
                     value={enteredReminder}
                     onChange={reminderChangeHandler}
                   />
+                </div>
+
+                <div
+                  className={
+                    isFormValid
+                      ? styles.errorMsgContainer
+                      : styles.errorMsgContainer.active
+                  }
+                >
+                  <span className={styles.errorMsg}>{errorMessage}</span>
                 </div>
 
                 <input
