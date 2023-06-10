@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment/moment";
 import { createTask } from "../../actions/projectActions";
@@ -7,37 +7,37 @@ import { GET_ERRORS } from "../../actions/types";
 import styles from "./AddTask.module.css";
 
 export const AddTask = (props) => {
-  const [enteredTaskTitle, setEnteredTaskTitle] = useState("");
-  const [enteredNotes, setEnteredNotes] = useState("");
-  const [enteredExpiryDate, setEnteredExpiryDate] = useState("");
-  const [enteredReminder, setEnteredReminder] = useState("");
+  const enteredTaskTitle = useRef("");
+  const enteredNotes = useRef("");
+  const enteredExpiryDate = useRef();
+  const enteredReminder = useRef();
   const [isFormValid, setIsFormValid] = useState(true);
-  let [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const titleChangeHandler = (event) => {
-    setEnteredTaskTitle(event.target.value);
-  };
+  // const titleChangeHandler = (event) => {
+  //   setEnteredTaskTitle(event.target.value);
+  // };
 
-  const notesChangeHandler = (event) => {
-    setEnteredNotes(event.target.value);
-  };
+  // const notesChangeHandler = (event) => {
+  //   setEnteredNotes(event.target.value);
+  // };
 
-  const expiryDateChangeHandler = (event) => {
-    setEnteredExpiryDate(event.target.value);
-  };
+  // const expiryDateChangeHandler = (event) => {
+  //   setEnteredExpiryDate(event.target.value);
+  // };
 
-  const reminderChangeHandler = (event) => {
-    setEnteredReminder(event.target.value);
-  };
+  // const reminderChangeHandler = (event) => {
+  //   setEnteredReminder(event.target.value);
+  // };
 
   const useSubmitHandler = (event) => {
     event.preventDefault();
 
     const newTask = {
-      taskTitle: enteredTaskTitle,
-      notes: enteredNotes,
-      expiryDate: new Date(enteredExpiryDate),
-      reminder: new Date(enteredReminder),
+      taskTitle: enteredTaskTitle.current.value,
+      notes: enteredNotes.current.value,
+      expiryDate: new Date(enteredExpiryDate.current.value),
+      reminder: new Date(enteredReminder.current.value),
     };
 
     axios
@@ -49,11 +49,21 @@ export const AddTask = (props) => {
         }
       })
       .catch((error) => {
-        errorMessage = error.response.data.errors[0];
+        console.log(error);
+        let caughtErrorMessage = error.response.data.errors[0];
+        if (caughtErrorMessage.includes("taskTitle")) {
+          caughtErrorMessage = "task name is required!";
+        } else if (caughtErrorMessage.includes("username")) {
+          caughtErrorMessage = "username is required!";
+        } else {
+          caughtErrorMessage = "some error occured!";
+        }
         setIsFormValid(false);
-        setErrorMessage(errorMessage);
-        console.log(errorMessage);
+        setErrorMessage(caughtErrorMessage);
+        console.log(error.response.data.errors);
       });
+    enteredTaskTitle.current.value = "";
+    enteredNotes.current.value = "";
   };
 
   return (
@@ -71,8 +81,7 @@ export const AddTask = (props) => {
                     className="form-control form-control-lg "
                     placeholder="Task Name"
                     name="taskTitle"
-                    value={enteredTaskTitle}
-                    onChange={titleChangeHandler}
+                    ref={enteredTaskTitle}
                   />
                 </div>
 
@@ -81,8 +90,7 @@ export const AddTask = (props) => {
                     className="form-control form-control-lg"
                     placeholder="Task Notes"
                     name="notes"
-                    value={enteredNotes}
-                    onChange={notesChangeHandler}
+                    ref={enteredNotes}
                   ></textarea>
                 </div>
                 <h6>Expiry Date</h6>
@@ -91,8 +99,7 @@ export const AddTask = (props) => {
                     type="date"
                     className="form-control form-control-lg"
                     name="expiryDate"
-                    value={enteredExpiryDate}
-                    onChange={expiryDateChangeHandler}
+                    ref={enteredExpiryDate}
                   />
                 </div>
                 <h6>Reminder</h6>
@@ -101,8 +108,7 @@ export const AddTask = (props) => {
                     type="datetime-local"
                     className="form-control form-control-lg"
                     name="reminder"
-                    value={enteredReminder}
-                    onChange={reminderChangeHandler}
+                    ref={enteredReminder}
                   />
                 </div>
 
