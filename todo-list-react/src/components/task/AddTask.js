@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import moment from "moment/moment";
-import { createTask } from "../../actions/projectActions";
 import axios from "axios";
-import { GET_ERRORS } from "../../actions/types";
 import styles from "./AddTask.module.css";
 
 export const AddTask = (props) => {
@@ -14,56 +11,60 @@ export const AddTask = (props) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // const titleChangeHandler = (event) => {
-  //   setEnteredTaskTitle(event.target.value);
-  // };
-
-  // const notesChangeHandler = (event) => {
-  //   setEnteredNotes(event.target.value);
-  // };
-
-  // const expiryDateChangeHandler = (event) => {
-  //   setEnteredExpiryDate(event.target.value);
-  // };
-
-  // const reminderChangeHandler = (event) => {
-  //   setEnteredReminder(event.target.value);
-  // };
-
   const useSubmitHandler = (event) => {
     event.preventDefault();
+
+    let expiryDateTemp = enteredExpiryDate.current.value;
+    let reminderDateTemp = enteredReminder.current.value;
+
+    if (expiryDateTemp === null || expiryDateTemp.trim() === "") {
+      expiryDateTemp = "";
+    } else {
+      expiryDateTemp = moment(new Date(enteredExpiryDate.current.value)).format(
+        "DD-MM-YYYY"
+      );
+    }
+
+    if (reminderDateTemp === null || reminderDateTemp.trim() === "") {
+      reminderDateTemp = "";
+    } else {
+      reminderDateTemp = moment(new Date(enteredReminder.current.value)).format(
+        "DD-MM-YYYY HH:MM:SS"
+      );
+    }
 
     const newTask = {
       taskTitle: enteredTaskTitle.current.value,
       notes: enteredNotes.current.value,
-      expiryDate: new Date(enteredExpiryDate.current.value),
-      reminder: new Date(enteredReminder.current.value),
+      expiryDate: expiryDateTemp,
+      reminder: reminderDateTemp,
     };
 
     axios
       .post("http://localhost:2222/task", newTask)
       .then((res) => {
-        console.log(res.data);
         if (!isFormValid) {
           setIsFormValid(true);
         }
       })
       .catch((error) => {
-        console.log(error);
-        let caughtErrorMessage = error.response.data.errors[0];
-        if (caughtErrorMessage.includes("taskTitle")) {
-          caughtErrorMessage = "task name is required!";
-        } else if (caughtErrorMessage.includes("username")) {
-          caughtErrorMessage = "username is required!";
-        } else {
-          caughtErrorMessage = "some error occured!";
+        let caughtErrorMessage = "Some error occured!";
+        if (error.response.data.errors.length > 0) {
+          caughtErrorMessage = error.response.data.errors[0];
+          if (caughtErrorMessage.includes("taskTitle")) {
+            caughtErrorMessage = "task name is required!";
+          } else if (caughtErrorMessage.includes("username")) {
+            caughtErrorMessage = "username is required!";
+          }
         }
+
         setIsFormValid(false);
         setErrorMessage(caughtErrorMessage);
-        console.log(error.response.data.errors);
       });
     enteredTaskTitle.current.value = "";
     enteredNotes.current.value = "";
+    enteredExpiryDate.current.value = null;
+    enteredReminder.current.value = null;
   };
 
   return (
