@@ -10,3 +10,7 @@
 .errorMsgContainer.active {
   display: block;
 }
+
+.taskTitleError {
+  border-color: red;
+}
