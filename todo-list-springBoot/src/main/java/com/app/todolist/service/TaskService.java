@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -98,6 +99,11 @@ public class TaskService {
         }
         taskRepository.delete(task);
         return task;
+    }
+
+    public List<Task> getAllTasks() {
+        List<Task> tasks = taskRepository.findAll();
+        return tasks;
     }
 
 }
