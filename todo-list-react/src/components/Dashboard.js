@@ -1,7 +1,23 @@
+import { useEffect } from "react";
 import { CreateTaskButton } from "./task/CreateTaskButton";
 import { TaskItem } from "./task/TaskItem";
+import axios from "axios";
 
 export const Dashboard = () => {
+
+  const tasks = null;
+  useEffect(()=>{
+    (async () => {
+    try {
+      const response = await axios.get("http://localhost:2222/task/getAllTasks");
+      console.log(response.data);
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }) ();
+  });
+
   return (
     <div className="projects">
       <div className="container">
