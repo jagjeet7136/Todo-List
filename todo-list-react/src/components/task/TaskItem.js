@@ -1,4 +1,4 @@
-export const TaskItem = () => {
+export const TaskItem = (props) => {
   return (
     <div className="container">
       <div className="card card-body bg-light mb-3">
@@ -7,8 +7,8 @@ export const TaskItem = () => {
             <span className="mx-auto">REACT</span>
           </div>
           <div className="col-lg-6 col-md-4 col-8">
-            <h3>Spring / React Project</h3>
-            <p>Project to create a Kanban Board with Spring Boot and React</p>
+            <h3>{props.taskTitle}</h3>
+            <p>{props.notes}</p>
           </div>
           <div className="col-md-4 d-none d-lg-block">
             <ul className="list-group">
