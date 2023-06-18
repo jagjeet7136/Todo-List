@@ -40,7 +40,7 @@ public class UserController {
         log.info("Request received for fetching a user {}", username);
         User user = userService.getUser(username);
         log.info("User fetched successfully {}", user);
-        return new ResponseEntity<>(user, HttpStatus.FOUND);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PatchMapping

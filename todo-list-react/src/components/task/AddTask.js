@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import moment from "moment/moment";
 import axios from "axios";
 import styles from "./AddTask.module.css";
@@ -10,6 +10,7 @@ export const AddTask = (props) => {
   const enteredReminder = useRef();
   const [isFormValid, setIsFormValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [taskTitleErrorClass, setTasktTitleErrorClass] = useState(false);
 
   const useSubmitHandler = (event) => {
     event.preventDefault();
@@ -46,6 +47,7 @@ export const AddTask = (props) => {
         if (!isFormValid) {
           setIsFormValid(true);
         }
+        setTasktTitleErrorClass(false);
       })
       .catch((error) => {
         let caughtErrorMessage = "Some error occured!";
@@ -53,6 +55,7 @@ export const AddTask = (props) => {
           caughtErrorMessage = error.response.data.errors[0];
           if (caughtErrorMessage.includes("taskTitle")) {
             caughtErrorMessage = "task name is required!";
+            setTasktTitleErrorClass(true);
           } else if (caughtErrorMessage.includes("username")) {
             caughtErrorMessage = "username is required!";
           }
@@ -79,7 +82,7 @@ export const AddTask = (props) => {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg "
+                    className={`form-control form-control-lg ${taskTitleErrorClass ? styles.taskTitleError : ""}`}
                     placeholder="Task Name"
                     name="taskTitle"
                     ref={enteredTaskTitle}

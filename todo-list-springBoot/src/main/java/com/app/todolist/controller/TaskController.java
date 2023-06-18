@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -48,7 +49,15 @@ public class TaskController {
         log.info("Request received for getting a task from taskId : {}", taskId);
         Task task = taskService.getTask(taskId);
         log.info("Task fetched successfully : {}", task);
-        return new ResponseEntity<>(task, HttpStatus.FOUND);
+        return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
+    @GetMapping("getAllTasks")
+    public ResponseEntity<List<Task>> getAllTasks() {
+        log.info("Request received for getting all the tasks");
+        List<Task> tasks = taskService.getAllTasks();
+        log.info("Tasks fetched successfully : {}", tasks);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
     @DeleteMapping
