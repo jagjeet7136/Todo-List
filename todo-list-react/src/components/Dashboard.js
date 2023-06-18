@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import { CreateTaskButton } from "./task/CreateTaskButton";
 import { TaskItem } from "./task/TaskItem";
 import axios from "axios";
+import moment from "moment";
 
 export const Dashboard = () => {
 
   const [tasks, setTasks] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     (async () => {
-    try {
-      const response = await axios.get("http://localhost:2222/task/getAllTasks");
-      setTasks(response.data);
-    }
-    catch(error) {
-      console.log(error);
-    }
-  }) ();
+      try {
+        const response = await axios.get("http://localhost:2222/task/getAllTasks");
+        setTasks(response.data);
+      }
+      catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   return (
@@ -30,11 +31,16 @@ export const Dashboard = () => {
             <br />
             <hr />
             {
-              tasks.map((task)=>(
-                <TaskItem 
-                key={task.id}
-                taskTitle={task.taskTitle}
-                notes={task.notes}
+              tasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  taskTitle={task.taskTitle}
+                  notes={task.notes}
+                  dueDate={task.expiryDate === null ? "" : moment(new Date(task.expiryDate)).format(
+                    "DD MMMM YYYY"
+                  )}
+                  reminder={task.reminder === null ? "" : moment(new Date(task.reminder)).format(
+                    "DD MMMM YYYY hh:mm A")}
                 />
               ))
             }
