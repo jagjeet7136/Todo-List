@@ -13,6 +13,7 @@ export const Dashboard = () => {
       try {
         const response = await axios.get("http://localhost:2222/task/getAllTasks");
         setTasks(response.data);
+        console.log(response);
       }
       catch (error) {
         console.log(error);
@@ -34,6 +35,7 @@ export const Dashboard = () => {
               tasks.map((task) => (
                 <TaskItem
                   key={task.id}
+                  id={task.id.toString()}
                   taskTitle={task.taskTitle}
                   notes={task.notes}
                   dueDate={task.expiryDate === null ? "" : moment(new Date(task.expiryDate)).format(

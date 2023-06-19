@@ -4,6 +4,7 @@ import { Header } from "./components/layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AddTask } from "./components/task/AddTask";
+import { UpdateTask } from "./components/task/UpdateTask";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/addTask" element={<AddTask />} />
+          <Route exact path="/updateTask/:id" element={<UpdateTask />} />
         </Routes>
       </div>
     </Router>
