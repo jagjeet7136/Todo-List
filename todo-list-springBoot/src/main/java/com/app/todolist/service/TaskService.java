@@ -58,6 +58,12 @@ public class TaskService {
             throw new NotFoundException("No task found with id : " + taskUpdateRequest.getId());
         }
         log.info("Task retrieved with id : {} is : {}", taskUpdateRequest.getId(), task);
+        if((taskUpdateRequest.getTaskTitle()==null || taskUpdateRequest.getTaskTitle().trim().isEmpty()) &&
+                (taskUpdateRequest.getNotes()==null || taskUpdateRequest.getNotes().trim().isEmpty()) &&
+                (taskUpdateRequest.getExpiryDate()==null || taskUpdateRequest.getExpiryDate().trim().isEmpty()) &&
+                (taskUpdateRequest.getReminder()==null || taskUpdateRequest.getReminder().trim().isEmpty())) {
+            throw new ValidationException("Nothing is updated : " + taskUpdateRequest);
+        }
         if(taskUpdateRequest.getTaskTitle()!=null && !taskUpdateRequest.getTaskTitle().isBlank()) {
             task.setTaskTitle(taskUpdateRequest.getTaskTitle());
         }
