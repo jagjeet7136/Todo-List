@@ -98,8 +98,15 @@ public class TaskService {
         return task;
     }
 
-    public Task deleteTask(Long taskId) throws NotFoundException {
-        Task task = taskRepository.findById(taskId).orElse(null);
+    public Task deleteTask(String taskId) throws NotFoundException, ValidationException {
+        Long convertedTaskId = null;
+        try {
+            convertedTaskId = Long.valueOf(taskId);
+        }
+        catch(Exception ex) {
+            throw new ValidationException("Invalid taskId : " + taskId);
+        }
+        Task task = taskRepository.findById(convertedTaskId).orElse(null);
         if(task==null) {
             throw new NotFoundException("No task found with id : " + taskId);
         }

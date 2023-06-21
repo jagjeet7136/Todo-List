@@ -61,7 +61,8 @@ public class TaskController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Task> deleteTask(@NotNull @RequestParam Long taskId) throws NotFoundException {
+    public ResponseEntity<Task> deleteTask(@NotNull @RequestParam String taskId) throws NotFoundException,
+            ValidationException {
         log.info("Request received for deleting a task with taskId : {}", taskId);
         Task task = taskService.deleteTask(taskId);
         log.info("Task deleted successfully : {}", task);
