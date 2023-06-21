@@ -1,3 +1,4 @@
+import { DeleteTask } from "./DeleteTask";
 import { UpdateTaskButton } from "./UpdateTaskButton";
 
 export const TaskItem = (props) => {
@@ -23,11 +24,11 @@ export const TaskItem = (props) => {
                 <UpdateTaskButton task={props} />
               </li>
 
-              <a href="">
-                <li className="list-group-item delete">
-                  <i className="fa fa-minus-circle pr-1">Delete Project</i>
-                </li>
-              </a>
+
+              <li className="list-group-item delete">
+                <DeleteTask taskId={props.id} />
+              </li>
+
             </ul>
           </div>
         </div>
