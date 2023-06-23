@@ -8,6 +8,11 @@ export const Dashboard = () => {
 
   const [tasks, setTasks] = useState([]);
 
+  const handleDelete = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== Number(taskId));
+    setTasks(updatedTasks);
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -43,6 +48,7 @@ export const Dashboard = () => {
                   )}
                   reminder={task.reminder === null ? "" : moment(new Date(task.reminder)).format(
                     "DD MMMM YYYY hh:mm A")}
+                  onDelete={handleDelete}
                 />
               ))
             }

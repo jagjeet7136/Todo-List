@@ -22,6 +22,7 @@ export const DeleteTask = (props) => {
                 }
             })
             .then((res) => {
+                props.onDelete(props.taskId);
             })
             .catch((error) => {
                 console.log(error);
@@ -32,7 +33,7 @@ export const DeleteTask = (props) => {
 
     return (
         <div>
-            <button onClick={openDialog}>Delete</button>
+            <button className="btn btn-danger" onClick={openDialog}>Delete</button>
             {isOpen && (
                 <div className="delete-dialog">
                     <p>Are you sure you want to delete?</p>

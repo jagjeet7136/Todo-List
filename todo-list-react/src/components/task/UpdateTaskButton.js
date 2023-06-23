@@ -5,9 +5,9 @@ export const UpdateTaskButton = (props) => {
 
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate(`/updateTask/${props.task.id}`, { state: props });
+        navigate(`/updateTask/${props.id}`, { state: { props } });
     };
-
+    console.log(props);
     return (
         <React.Fragment>
             <button

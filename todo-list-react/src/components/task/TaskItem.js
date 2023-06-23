@@ -21,12 +21,15 @@ export const TaskItem = (props) => {
             <ul className="list-group">
 
               <li className="list-group-item update">
-                <UpdateTaskButton task={props} />
+                <UpdateTaskButton id={props.id.toString()}
+                  taskTitle={props.taskTitle}
+                  notes={props.notes}
+                  dueDate={props.expiryDate}
+                  reminder={props.reminder} />
               </li>
 
-
               <li className="list-group-item delete">
-                <DeleteTask taskId={props.id} />
+                <DeleteTask taskId={props.id} onDelete={props.onDelete} />
               </li>
 
             </ul>

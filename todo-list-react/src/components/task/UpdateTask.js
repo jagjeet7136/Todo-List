@@ -13,7 +13,7 @@ export const UpdateTask = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const location = useLocation();
-    const taskProps = location.state.task;
+    const taskProps = location.state.props;
     console.log(taskProps);
 
     const onSubmitHandler = (event) => {
