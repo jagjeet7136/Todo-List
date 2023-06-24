@@ -28,10 +28,11 @@ public class TaskService {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 
-    public Task createTask(TaskCreateRequest taskCreateRequest) throws NotFoundException, ValidationException {
+    public Task createTask(TaskCreateRequest taskCreateRequest, String username) throws NotFoundException,
+            ValidationException {
         Task newTask = new Task();
         newTask.setTaskTitle(taskCreateRequest.getTaskTitle());
-//        newTask.setUser(userService.getUser(taskCreateRequest.getUsername()));
+        newTask.setUser(userService.getUser(username));
         try {
             if(taskCreateRequest.getExpiryDate()!=null && !taskCreateRequest.getExpiryDate().isBlank()) {
                 newTask.setExpiryDate(LocalDate.parse(taskCreateRequest.getExpiryDate(), dateFormatter));

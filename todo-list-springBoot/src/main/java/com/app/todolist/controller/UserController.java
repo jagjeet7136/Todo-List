@@ -1,16 +1,25 @@
 package com.app.todolist.controller;
 
+import com.app.todolist.configuration.JwtTokenProvider;
+import com.app.todolist.configuration.SecurityConstants;
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
 import com.app.todolist.exception.NotFoundException;
 import com.app.todolist.exception.ValidationException;
+import com.app.todolist.model.request.LoginRequest;
 import com.app.todolist.model.request.UserCreateRequest;
 import com.app.todolist.model.request.UserUpdateRequest;
+import com.app.todolist.model.response.JWTLoginSuccessResponse;
 import com.app.todolist.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -25,6 +34,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest) throws
@@ -66,6 +81,18 @@ public class UserController {
         List<Task> tasksList = userService.getUserTasks(username);
         log.info("User tasks fetched successfully {}", tasksList);
         return new ResponseEntity<>(tasksList, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+                                              BindingResult bindingResult) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.helperGenerateToken(authentication);
+        log.info("Token generated: {}", token);
+        return ResponseEntity.ok(new JWTLoginSuccessResponse(true, token));
     }
 
 }

@@ -13,4 +13,8 @@ public class UserCreateRequest {
     @NotBlank(message = "The email address is required.")
     @Email(message = "The email address is invalid.", flags = { Pattern.Flag.CASE_INSENSITIVE })
     private String email;
+
+    private String password;
+
+    private String confirmPassword;
 }

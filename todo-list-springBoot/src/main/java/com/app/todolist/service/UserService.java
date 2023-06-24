@@ -1,15 +1,30 @@
 package com.app.todolist.service;
 
+import com.app.todolist.configuration.JwtTokenProvider;
+import com.app.todolist.configuration.SecurityConstants;
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
 import com.app.todolist.exception.NotFoundException;
 import com.app.todolist.exception.ValidationException;
+import com.app.todolist.model.request.LoginRequest;
 import com.app.todolist.model.request.UserCreateRequest;
 import com.app.todolist.model.request.UserUpdateRequest;
+import com.app.todolist.model.response.JWTLoginSuccessResponse;
 import com.app.todolist.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +35,15 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public User createUser(UserCreateRequest userCreateRequest) throws ValidationException {
         usernameAlreadyExists(userCreateRequest.getEmail());
         User newUser = new User();
         newUser.setUserFullName(userCreateRequest.getUserFullName().trim());
         newUser.setUsername(userCreateRequest.getEmail());
+        newUser.setPassword(bCryptPasswordEncoder.encode(userCreateRequest.getPassword()));
         newUser.setTasks(new ArrayList<>());
         return userRepository.save(newUser);
     }

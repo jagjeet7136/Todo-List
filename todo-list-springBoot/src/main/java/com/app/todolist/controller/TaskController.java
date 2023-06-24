@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -27,10 +28,10 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateRequest taskCreateRequest) throws
-            NotFoundException, ValidationException {
+    public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateRequest taskCreateRequest, Principal principal)
+            throws NotFoundException, ValidationException {
         log.info("Request Received for creating a task {}", taskCreateRequest);
-        Task task = taskService.createTask(taskCreateRequest);
+        Task task = taskService.createTask(taskCreateRequest, principal.getName());
         log.info("Task created {}", task);
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
