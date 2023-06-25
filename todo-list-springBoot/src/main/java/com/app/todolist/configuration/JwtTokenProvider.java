@@ -1,5 +1,6 @@
 package com.app.todolist.configuration;
 
+import com.app.todolist.constants.SecurityConstants;
 import com.app.todolist.entity.User;
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
@@ -27,7 +28,7 @@ public class JwtTokenProvider {
             fullName = name;
         }
         Date now = new Date(System.currentTimeMillis());
-        Date expiryDate = new Date(now.getTime()+SecurityConstants.EXPIRATION_TIME);
+        Date expiryDate = new Date(now.getTime()+ SecurityConstants.EXPIRATION_TIME);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", userId);

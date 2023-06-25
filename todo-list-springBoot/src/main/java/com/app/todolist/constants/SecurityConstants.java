@@ -1,4 +1,4 @@
-package com.app.todolist.configuration;
+package com.app.todolist.constants;
 
 public class SecurityConstants {
 

@@ -1,7 +1,7 @@
 package com.app.todolist.controller;
 
 import com.app.todolist.configuration.JwtTokenProvider;
-import com.app.todolist.configuration.SecurityConstants;
+import com.app.todolist.constants.SecurityConstants;
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
 import com.app.todolist.exception.NotFoundException;

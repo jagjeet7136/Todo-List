@@ -14,7 +14,11 @@ public class UserCreateRequest {
     @Email(message = "The email address is invalid.", flags = { Pattern.Flag.CASE_INSENSITIVE })
     private String email;
 
+    @NotBlank(message = "The password is required")
+    @Size(min = 6, max = 100, message = "The password length must be between 6 and 100 characters.")
     private String password;
 
+    @NotBlank(message = "The confirm password is required")
+    @Size(min = 6, max = 100, message = "The password length must be between 6 and 100 characters.")
     private String confirmPassword;
 }

@@ -1,5 +1,6 @@
 package com.app.todolist.configuration;
 
+import com.app.todolist.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

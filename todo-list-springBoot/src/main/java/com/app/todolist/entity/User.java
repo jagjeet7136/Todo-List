@@ -3,7 +3,6 @@ package com.app.todolist.entity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +20,13 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String userFullName;
 
-    @Column(unique=true)
+    @Column(unique=true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
