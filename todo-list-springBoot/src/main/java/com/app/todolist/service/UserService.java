@@ -9,8 +9,10 @@ import com.app.todolist.model.request.UserUpdateRequest;
 import com.app.todolist.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +80,10 @@ public class UserService {
             throw new NotFoundException(username + " do not exists");
         }
         return user.getTasks();
+    }
+
+    public User getLoggedInUser(Principal principal) {
+        return (User) ((Authentication) principal).getPrincipal();
     }
 
 }

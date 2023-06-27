@@ -1,6 +1,7 @@
 package com.app.todolist.service;
 
 import com.app.todolist.entity.Task;
+import com.app.todolist.entity.User;
 import com.app.todolist.exception.NotFoundException;
 import com.app.todolist.exception.ValidationException;
 import com.app.todolist.model.request.TaskCreateRequest;
@@ -53,8 +54,9 @@ public class TaskService {
         return taskRepository.save(newTask);
     }
 
-    public Task updateTask(TaskUpdateRequest taskUpdateRequest) throws NotFoundException, ValidationException {
-        Task task = taskRepository.findById(taskUpdateRequest.getId()).orElse(null);
+    public Task updateTask(TaskUpdateRequest taskUpdateRequest, User user) throws NotFoundException,
+            ValidationException {
+        Task task = taskRepository.findByIdAndUser(taskUpdateRequest.getId(), user);
         if(task==null) {
             throw new NotFoundException("No task found with id : " + taskUpdateRequest.getId());
         }
@@ -91,15 +93,16 @@ public class TaskService {
         return task;
     }
 
-    public Task getTask(Long taskId) throws NotFoundException {
-        Task task = taskRepository.findById(taskId).orElse(null);
+    public Task getTask(Long taskId, User loggedInUser) throws NotFoundException {
+        Task task = taskRepository.findByIdAndUser(taskId, loggedInUser);
         if(task==null) {
-            throw new NotFoundException("No task found with id : " + taskId);
+            throw new NotFoundException("No task found with id : " + taskId + " with username : " +
+                    loggedInUser.getUsername());
         }
         return task;
     }
 
-    public Task deleteTask(String taskId) throws NotFoundException, ValidationException {
+    public Task deleteTask(String taskId, User user) throws NotFoundException, ValidationException {
         Long convertedTaskId = null;
         try {
             convertedTaskId = Long.valueOf(taskId);
@@ -107,7 +110,7 @@ public class TaskService {
         catch(Exception ex) {
             throw new ValidationException("Invalid taskId : " + taskId);
         }
-        Task task = taskRepository.findById(convertedTaskId).orElse(null);
+        Task task = taskRepository.findByIdAndUser(convertedTaskId, user);
         if(task==null) {
             throw new NotFoundException("No task found with id : " + taskId);
         }
@@ -115,9 +118,8 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll();
-        return tasks;
+    public List<Task> getAllTasks(User user) {
+        return taskRepository.findAllByUser(user);
     }
 
 }
