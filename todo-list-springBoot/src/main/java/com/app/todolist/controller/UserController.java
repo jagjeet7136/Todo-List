@@ -19,11 +19,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -50,45 +49,46 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<User> getUser(@NotBlank @RequestParam String username) throws NotFoundException {
-        log.info("Request received for fetching a user {}", username);
-        User user = userService.getUser(username);
-        log.info("User fetched successfully {}", user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+// This API is for Admin purposes which will be effective after adding Roles to the users
+//    @GetMapping
+//    public ResponseEntity<User> getUser(@NotBlank @RequestParam String username) throws NotFoundException {
+//        log.info("Request received for fetching a user {}", username);
+//        User user = userService.getUser(username);
+//        log.info("User fetched successfully {}", user);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
     @PatchMapping
-    public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) throws
-            NotFoundException {
+    public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, Principal
+            principal) throws NotFoundException {
         log.info("Request received for user update {}", userUpdateRequest);
-        User user = userService.updateUser(userUpdateRequest);
-        log.info("User updated successfully {}", user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        User user = userService.getLoggedInUser(principal);
+        User updatedUser = userService.updateUser(userUpdateRequest, user);
+        log.info("User updated successfully {}", updatedUser);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@NotBlank @RequestParam String username) throws NotFoundException {
-        log.info("Request received for deleting a user {}", username);
-        User user = userService.deleteUser(username);
-        log.info("User deleted successfully {}", user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @DeleteMapping
+//    public ResponseEntity<Void> deleteUser(@NotBlank @RequestParam String username) throws NotFoundException {
+//        log.info("Request received for deleting a user {}", username);
+//        User user = userService.deleteUser(username);
+//        log.info("User deleted successfully {}", user);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
-    @GetMapping("{username}")
-    ResponseEntity<List<Task>> getUserTasks(@NotBlank @PathVariable String username) throws NotFoundException {
-        log.info("Request received for fetching user tasks : {}", username);
-        List<Task> tasksList = userService.getUserTasks(username);
+    @GetMapping
+    ResponseEntity<List<Task>> getUserTasks(Principal principal) throws NotFoundException {
+        log.info("Request received for fetching user tasks : {}", principal.getName());
+        User loggedInUser = userService.getLoggedInUser(principal);
+        List<Task> tasksList = userService.getUserTasks(loggedInUser);
         log.info("User tasks fetched successfully {}", tasksList);
         return new ResponseEntity<>(tasksList, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                                              BindingResult bindingResult) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(), loginRequest.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.helperGenerateToken(authentication);
         log.info("Token generated: {}", token);

@@ -36,7 +36,8 @@ public class TaskController {
     public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateRequest taskCreateRequest, Principal principal)
             throws NotFoundException, ValidationException {
         log.info("Request Received for creating a task {}", taskCreateRequest);
-        Task task = taskService.createTask(taskCreateRequest, principal.getName());
+        User loggedInUser = userService.getLoggedInUser(principal);
+        Task task = taskService.createTask(taskCreateRequest, loggedInUser);
         log.info("Task created {}", task);
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
@@ -60,15 +61,6 @@ public class TaskController {
         Task task = taskService.getTask(taskId, loggedInUser);
         log.info("Task fetched successfully : {}", task);
         return new ResponseEntity<>(task, HttpStatus.OK);
-    }
-
-    @GetMapping("getAllTasks")
-    public ResponseEntity<List<Task>> getAllTasks(Principal principal) {
-        log.info("Request received for getting all the tasks");
-        User loggedInUser = userService.getLoggedInUser(principal);
-        List<Task> tasks = taskService.getAllTasks(loggedInUser);
-        log.info("Tasks fetched successfully : {}", tasks);
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
     @DeleteMapping

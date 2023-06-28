@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -29,11 +28,10 @@ public class TaskService {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 
-    public Task createTask(TaskCreateRequest taskCreateRequest, String username) throws NotFoundException,
-            ValidationException {
+    public Task createTask(TaskCreateRequest taskCreateRequest, User user) throws ValidationException {
         Task newTask = new Task();
         newTask.setTaskTitle(taskCreateRequest.getTaskTitle());
-        newTask.setUser(userService.getUser(username));
+        newTask.setUser(user);
         try {
             if(taskCreateRequest.getExpiryDate()!=null && !taskCreateRequest.getExpiryDate().isBlank()) {
                 newTask.setExpiryDate(LocalDate.parse(taskCreateRequest.getExpiryDate(), dateFormatter));
@@ -116,10 +114,6 @@ public class TaskService {
         }
         taskRepository.delete(task);
         return task;
-    }
-
-    public List<Task> getAllTasks(User user) {
-        return taskRepository.findAllByUser(user);
     }
 
 }

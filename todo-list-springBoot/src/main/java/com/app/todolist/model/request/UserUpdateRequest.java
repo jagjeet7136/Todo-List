@@ -9,6 +9,4 @@ public class UserUpdateRequest {
     @NotBlank
     private String userFullName;
 
-    @NotBlank
-    private String username;
 }

@@ -39,20 +39,15 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User getUser(String username) throws NotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user==null) {
-            throw new NotFoundException("User not found with username: " + username);
-        }
-        return user;
-    }
+//    public User getUser(String username) throws NotFoundException {
+//        User user = userRepository.findByUsername(username);
+//        if(user==null) {
+//            throw new NotFoundException("User not found with username: " + username);
+//        }
+//        return user;
+//    }
 
-    public User updateUser(UserUpdateRequest userUpdateRequest) throws NotFoundException {
-        User user = userRepository.findByUsername(userUpdateRequest.getUsername());
-        if(user==null) {
-            throw new NotFoundException(userUpdateRequest.getUsername() + " do not exists");
-        }
-        log.info("User retrieved with username : {} is : {}", userUpdateRequest.getUsername(), user);
+    public User updateUser(UserUpdateRequest userUpdateRequest, User user) throws NotFoundException {
         user.setUserFullName(userUpdateRequest.getUserFullName());
         user = userRepository.save(user);
         return user;
@@ -65,21 +60,21 @@ public class UserService {
         }
     }
 
-    public User deleteUser(String username) throws NotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user==null) {
-            throw new NotFoundException(username + " do not exists");
-        }
-        userRepository.delete(user);
-        return user;
-    }
+//    public User deleteUser(String username) throws NotFoundException {
+//        User user = userRepository.findByUsername(username);
+//        if(user==null) {
+//            throw new NotFoundException(username + " do not exists");
+//        }
+//        userRepository.delete(user);
+//        return user;
+//    }
 
-    public List<Task> getUserTasks(String username) throws NotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user==null) {
-            throw new NotFoundException(username + " do not exists");
+    public List<Task> getUserTasks(User user) throws NotFoundException {
+        List<Task> tasks = user.getTasks();
+        if(tasks==null) {
+            return new ArrayList<>();
         }
-        return user.getTasks();
+        return tasks;
     }
 
     public User getLoggedInUser(Principal principal) {
