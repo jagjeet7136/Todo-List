@@ -29,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @Validated
+@CrossOrigin
 public class UserController {
 
     @Autowired
