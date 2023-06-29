@@ -51,7 +51,13 @@ export const AddTask = (props) => {
       })
       .catch((error) => {
         let caughtErrorMessage = "Some error occured!";
-        if (error.response.data.errors.length > 0) {
+        console.log(error);
+        if (error.response.data.errors == null) {
+          if (error.response.status === 401) {
+            caughtErrorMessage = "Unauthorised"
+          }
+        }
+        else if (error.response.data.errors.length > 0) {
           caughtErrorMessage = error.response.data.errors[0];
           if (caughtErrorMessage.includes("taskTitle")) {
             caughtErrorMessage = "task name is required!";

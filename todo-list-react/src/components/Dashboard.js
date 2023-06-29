@@ -16,7 +16,7 @@ export const Dashboard = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("http://localhost:2222/task/getAllTasks");
+        const response = await axios.get("http://localhost:2222/user/getUserTasks");
         setTasks(response.data);
         console.log(response);
       }
