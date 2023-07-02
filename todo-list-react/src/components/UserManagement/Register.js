@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import styles from "./Register.module.css";
 
 export const Register = () => {
 
@@ -7,6 +8,9 @@ export const Register = () => {
     const email = useRef();
     const password = useRef();
     const confirmPassword = useRef();
+    const [successMsg, setSuccessMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [isFormValid, setIsFormValid] = useState(true);
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -19,9 +23,22 @@ export const Register = () => {
         axios.post('http://localhost:2222/user', newUser)
             .then(response => {
                 console.log('Received user object:', response.data);
+                if (!isFormValid) {
+                    setIsFormValid(true);
+                }
+                setSuccessMsg("User created Successfully");
             })
             .catch(error => {
                 console.error('Error:', error);
+                let caughtErrorMessage = "Some error occured!";
+                if (error.response.data.errors != null && error.response.data.errors.length > 0) {
+                    caughtErrorMessage = error.response.data.errors[0];
+                }
+                else if (error.response.data.message != null && error.response.data.message.trim().length > 0) {
+                    caughtErrorMessage = error.response.data.message;
+                }
+                setErrorMsg(caughtErrorMessage);
+                setIsFormValid(false);
             });
 
         userFullName.current.value = "";
@@ -73,6 +90,13 @@ export const Register = () => {
                                     name="confirmPassword"
                                     ref={confirmPassword}
                                 />
+                            </div>
+                            <div className={isFormValid ? styles.successMsgContainer.active : styles.successMsgContainer}>
+                                <span className={styles.successMsg}>{successMsg}</span>
+                            </div>
+                            <div className={isFormValid ? styles.errorMsgContainer
+                                : styles.errorMsgContainer.active}>
+                                <span className={styles.errorMsg}>{errorMsg}</span>
                             </div>
                             <input type="submit" className="btn btn-info btn-block mt-4" />
                         </form>

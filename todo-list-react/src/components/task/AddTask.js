@@ -52,19 +52,14 @@ export const AddTask = (props) => {
       .catch((error) => {
         let caughtErrorMessage = "Some error occured!";
         console.log(error);
-        if (error.response.data.errors == null) {
-          if (error.response.status === 401) {
-            caughtErrorMessage = "Unauthorised"
-          }
+        if (error.response.status === 401) {
+          caughtErrorMessage = "Unauthorised"
         }
-        else if (error.response.data.errors.length > 0) {
+        else if (error.response.data.errors != null && error.response.data.errors.length > 0) {
           caughtErrorMessage = error.response.data.errors[0];
-          if (caughtErrorMessage.includes("taskTitle")) {
-            caughtErrorMessage = "task name is required!";
-            setTasktTitleErrorClass(true);
-          } else if (caughtErrorMessage.includes("username")) {
-            caughtErrorMessage = "username is required!";
-          }
+        }
+        else if (error.response.data.message != null && error.response.data.message.trim().length > 0) {
+          caughtErrorMessage = error.response.data.message;
         }
 
         setIsFormValid(false);

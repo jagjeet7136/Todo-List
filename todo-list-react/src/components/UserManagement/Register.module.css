@@ -1,0 +1,25 @@
+.errorMsg {
+  color: red;
+  font-size: 20px;
+}
+
+.errorMsgContainer {
+  display: none;
+}
+
+.errorMsgContainer.active {
+  display: block;
+}
+
+.successMsg {
+  color: green;
+  font-size: 20px;
+}
+
+.successMsgContainer {
+  display: none;
+}
+
+.successMsgContainer.active {
+  display: block;
+}
