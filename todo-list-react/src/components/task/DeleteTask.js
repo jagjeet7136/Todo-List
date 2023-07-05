@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export const DeleteTask = (props) => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const authContext = useContext(AuthContext);
+    const token = localStorage.getItem("token");
     const openDialog = () => {
         setIsOpen(true);
     };
@@ -16,15 +18,17 @@ export const DeleteTask = (props) => {
         console.log(props.taskId);
 
         axios
-            .delete("http://localhost:2222/task", {
-                params: {
-                    taskId: props.taskId
+            .delete(`http://localhost:2222/task?taskId=${props.taskId}`, {
+                headers: {
+                    Authorization: token
                 }
             })
             .then((res) => {
+                console.log(authContext.token);
                 props.onDelete(props.taskId);
             })
             .catch((error) => {
+                console.log(authContext);
                 console.log(error);
             });
 

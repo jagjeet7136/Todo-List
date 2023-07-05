@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { DeleteTask } from '../components/task/DeleteTask';
 
 const AuthContext = createContext();
 

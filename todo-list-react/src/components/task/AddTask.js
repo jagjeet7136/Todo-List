@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import moment from "moment/moment";
 import axios from "axios";
 import styles from "./AddTask.module.css";
+import { AuthContext } from "../../context/AuthContext";
 
 export const AddTask = (props) => {
   const enteredTaskTitle = useRef("");
@@ -11,6 +12,8 @@ export const AddTask = (props) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [taskTitleErrorClass, setTasktTitleErrorClass] = useState(false);
+  const authContext = useContext(AuthContext);
+  const token = localStorage.getItem("token");
 
   const useSubmitHandler = (event) => {
     event.preventDefault();
@@ -42,7 +45,11 @@ export const AddTask = (props) => {
     };
 
     axios
-      .post("http://localhost:2222/task", newTask)
+      .post("http://localhost:2222/task", newTask, {
+        headers: {
+          Authorization: token
+        }
+      })
       .then((res) => {
         if (!isFormValid) {
           setIsFormValid(true);

@@ -1,11 +1,13 @@
 import React, { useContext, useRef } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
     const authContext = useContext(AuthContext);
     const username = useRef("");
     const password = useRef("");
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -16,12 +18,14 @@ export const Login = () => {
         axios
             .post("http://localhost:2222/user/login", loginObject)
             .then((res) => {
-                console.log(res.data);
+                console.log(res.data.token);
+                authContext.login(res.data.token);
+                localStorage.setItem("token", res.data.token);
+                navigate('/dashboard');
             })
             .catch((error) => {
-
+                console.log(error);
             });
-
     };
 
 

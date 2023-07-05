@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const UpdateTaskButton = (props) => {
 
@@ -7,7 +7,7 @@ export const UpdateTaskButton = (props) => {
     const handleClick = () => {
         navigate(`/updateTask/${props.id}`, { state: { props } });
     };
-    console.log(props);
+
     return (
         <React.Fragment>
             <button

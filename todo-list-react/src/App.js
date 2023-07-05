@@ -8,22 +8,30 @@ import { UpdateTask } from "./components/task/UpdateTask";
 import { Landing } from "./components/layout/Landing";
 import { Register } from "./components/UserManagement/Register";
 import { Login } from "./components/UserManagement/Login";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
+
+  const token = localStorage.getItem("token");
+  if (token) {
+
+  }
   return (
-    <Router>
-      <div className={styles.App}>
-        <Header />
-        <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/addTask" element={<AddTask />} />
-          <Route exact path="/updateTask/:id" element={<UpdateTask />} />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className={styles.App}>
+          <Header />
+          <Routes>
+            <Route exact path="/" element={<Landing />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/addTask" element={<AddTask />} />
+            <Route exact path="/updateTask/:id" element={<UpdateTask />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

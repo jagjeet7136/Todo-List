@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CreateTaskButton } from "./task/CreateTaskButton";
 import { TaskItem } from "./task/TaskItem";
 import axios from "axios";
 import moment from "moment";
+import { AuthContext } from "../context/AuthContext";
 
 export const Dashboard = () => {
 
   const [tasks, setTasks] = useState([]);
+  const authContext = useContext(AuthContext);
+  const token = localStorage.getItem("token");
 
   const handleDelete = (taskId) => {
     const updatedTasks = tasks.filter((task) => task.id !== Number(taskId));
@@ -16,9 +19,9 @@ export const Dashboard = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("http://localhost:2222/user/getUserTasks");
+        console.log(token);
+        const response = await axios.get("http://localhost:2222/user", { headers: { Authorization: token } });
         setTasks(response.data);
-        console.log(response);
       }
       catch (error) {
         console.log(error);

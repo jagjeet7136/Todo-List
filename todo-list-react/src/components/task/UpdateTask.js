@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./UpdateTask.module.css";
 import moment from "moment";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 export const UpdateTask = () => {
     const enteredTaskTitle = useRef("");
@@ -11,10 +12,10 @@ export const UpdateTask = () => {
     const enteredReminder = useRef();
     const [isFormValid, setIsFormValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
-
+    const authContext = useContext(AuthContext);
     const location = useLocation();
     const taskProps = location.state.props;
-    console.log(taskProps);
+    const token = localStorage.getItem("token");
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
@@ -47,7 +48,7 @@ export const UpdateTask = () => {
         };
 
         axios
-            .patch("http://localhost:2222/task", newTask)
+            .patch("http://localhost:2222/task", newTask, { headers: { Authorization: token } })
             .then((res) => {
                 if (!isFormValid) {
                     setIsFormValid(true);
@@ -56,7 +57,7 @@ export const UpdateTask = () => {
             .catch((error) => {
                 console.log(error);
                 let caughtErrorMessage = "Some error occured!";
-                if (error.response != null && error.response.data != null) {
+                if (error.response != null && error.response.data != null && error.response.data.message != null) {
                     caughtErrorMessage = error.response.data.message.toLowerCase();
                     if (caughtErrorMessage.includes("nothing")) {
                         caughtErrorMessage = "no field is updated!";
