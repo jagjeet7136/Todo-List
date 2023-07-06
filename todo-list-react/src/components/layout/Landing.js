@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Landing = () => {
+
     return (
         <div className="landing">
             <div className="light-overlay landing-inner text-dark">

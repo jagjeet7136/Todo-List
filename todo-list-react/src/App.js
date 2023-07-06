@@ -11,11 +11,6 @@ import { Login } from "./components/UserManagement/Login";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
-
-  const token = localStorage.getItem("token");
-  if (token) {
-
-  }
   return (
     <AuthProvider>
       <Router>
