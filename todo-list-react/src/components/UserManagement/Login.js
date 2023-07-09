@@ -18,9 +18,9 @@ export const Login = () => {
         axios
             .post("http://localhost:2222/user/login", loginObject)
             .then((res) => {
-                console.log(res.data.token);
                 authContext.login(res.data.token);
                 localStorage.setItem("token", res.data.token);
+                localStorage.setItem("loggedIn", "true");
                 navigate('/dashboard');
             })
             .catch((error) => {

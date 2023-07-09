@@ -3,29 +3,26 @@ import React, { createContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [token, setToken] = useState('');
+    const storedToken = localStorage.getItem('token');
+    const storedLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const [loggedIn, setLoggedIn] = useState(storedLoggedIn);
+    const [token, setToken] = useState(storedToken);
 
-    // Check if token exists in localStorage on component mount
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
-            setLoggedIn(true);
-        }
-    }, []);
+        localStorage.setItem('token', token);
+        localStorage.setItem('loggedIn', loggedIn.toString());
+    }, [token, loggedIn]);
 
     const login = (newToken) => {
         setToken(newToken);
         setLoggedIn(true);
-        localStorage.setItem('token', newToken);
     };
 
     const logout = () => {
         setToken('');
         setLoggedIn(false);
-        // Remove token from localStorage
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
+        localStorage.removeItem("loggedIn");
     };
 
     return (

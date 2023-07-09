@@ -1,9 +1,8 @@
-import React, { useContext, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import styles from "./UpdateTask.module.css";
 import moment from "moment";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
 
 export const UpdateTask = () => {
     const enteredTaskTitle = useRef("");
@@ -12,9 +11,11 @@ export const UpdateTask = () => {
     const enteredReminder = useRef();
     const [isFormValid, setIsFormValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
-    const authContext = useContext(AuthContext);
     const location = useLocation();
-    const taskProps = location.state.props;
+    const taskProps = location.state?.props;
+    if (!taskProps) {
+        return <Navigate to="/dashboard" />;
+    }
     const token = localStorage.getItem("token");
 
     const onSubmitHandler = (event) => {

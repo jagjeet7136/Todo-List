@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AddTask.module.css";
 import { AuthContext } from "../../context/AuthContext";
 
-export const AddTask = (props) => {
+export const AddTask = () => {
   const enteredTaskTitle = useRef("");
   const enteredNotes = useRef("");
   const enteredExpiryDate = useRef();
@@ -58,7 +58,6 @@ export const AddTask = (props) => {
       })
       .catch((error) => {
         let caughtErrorMessage = "Some error occured!";
-        console.log(error);
         if (error.response.status === 401) {
           caughtErrorMessage = "Unauthorised"
         }
@@ -77,7 +76,7 @@ export const AddTask = (props) => {
     enteredExpiryDate.current.value = null;
     enteredReminder.current.value = null;
   };
-
+  console.log(authContext.loggedIn);
   return (
     <div>
       <div className="Task">
