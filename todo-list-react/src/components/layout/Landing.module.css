@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing {
+  display: flex;
+  margin: 100px 20px 20px;
+  color: rgb(198, 13, 13);
+}
+
+.landingWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  width: 50%;
+}
+
+.landingHeading {
+  font-size: 80px;
+}
+
+.landingPara {
+  margin-top: 20px;
+  font-size: 30px;
+}
+
+.landingImage {
+  margin: 20px;
+  width: 50%;
+}

@@ -1,30 +1,15 @@
-import { Link } from "react-router-dom";
+import styles from "./Landing.module.css";
 
 export const Landing = () => {
 
     return (
-        <div className="landing">
-            <div className="light-overlay landing-inner text-dark">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 text-center">
-                            <h1 className="display-3 mb-4">
-                                Task Management Tool
-                            </h1>
-                            <p className="lead">
-                                Create your account to join active projects or start your own
-                            </p>
-                            <hr />
-                            <Link className="btn btn-lg btn-primary mr-2" to="/register">
-                                Sign Up
-                            </Link>
-                            <Link className="btn btn-lg btn-secondary mr-2" to="/login">
-                                Login
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+        <div className={styles.landing}>
+            <div className={styles.landingWrapper}>
+                <h1 className={styles.landingHeading}>Personal To-Do Application
+                </h1>
+                <p className={styles.landingPara}>Hello everyone, this is a task management tool and anyone can use it for some basic operation like addtion, updation, deletion. Further we will add a statistic analysis of your activities. I have created this tool by using Spring, React and MySQL.</p>
             </div>
+            <img className={styles.landingImage} src="https://cdn.pixabay.com/photo/2023/01/31/19/52/dog-7758887_640.jpg" alt=""></img>
         </div>
     );
 }
