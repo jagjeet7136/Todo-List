@@ -4,10 +4,21 @@
   box-sizing: border-box;
 }
 
+.flex {
+  display: flex;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 30px 40px;
+  height: 10vh;
 }
 
 .headerList {
@@ -27,4 +38,51 @@
 
 .headerList li:hover {
   text-decoration: 2px underline;
+}
+
+.outerMenu {
+  display: flex;
+}
+
+.toggleMenu {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  display: none;
+  z-index: 2;
+}
+
+.toggleMenu span {
+  width: 35px;
+  height: 4px;
+  background-color: rgb(198, 13, 13);
+}
+
+.toggleMenuOne {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 450px) {
+  .headerList {
+    display: none;
+  }
+
+  .toggleMenu {
+    display: flex;
+  }
+}
+
+.navbarMenu {
+  position: absolute;
+  background-color: black;
+  height: 50vw;
+  width: 100vw;
+  z-index: 1;
+  right: 0px;
+  top: 0px;
+  display: none;
+}
+
+.navbarMenu.active {
+  display: block;
 }
