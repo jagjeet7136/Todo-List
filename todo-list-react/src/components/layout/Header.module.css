@@ -21,27 +21,17 @@
   height: 10vh;
 }
 
-.headerList {
-  display: flex;
-  align-items: center;
-  margin: 0px;
-  padding: 0px;
-}
-
-.headerList li {
+.headerList div a {
   list-style: none;
   margin-left: 20px;
   color: rgb(198, 13, 13);
   font-size: 20px;
   font-weight: bold;
+  text-decoration: none;
 }
 
-.headerList li:hover {
+.headerList div a:hover {
   text-decoration: 2px underline;
-}
-
-.outerMenu {
-  display: flex;
 }
 
 .toggleMenu {
@@ -62,20 +52,10 @@
   margin-bottom: 5px;
 }
 
-@media (max-width: 450px) {
-  .headerList {
-    display: none;
-  }
-
-  .toggleMenu {
-    display: flex;
-  }
-}
-
 .navbarMenu {
   position: absolute;
-  background-color: black;
-  height: 50vw;
+  background-color: #2d2d2d;
+  height: 50vh;
   width: 100vw;
   z-index: 1;
   right: 0px;
@@ -85,4 +65,47 @@
 
 .navbarMenu.active {
   display: block;
+}
+
+.navbar {
+  height: 100%;
+  width: 100%;
+  font-size: 10vw;
+}
+
+.navbar div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar div a {
+  text-decoration: none;
+  margin: 10px;
+  color: rgb(198, 13, 13);
+}
+
+@media (max-width: 450px) {
+  .displayNone {
+    display: none;
+  }
+
+  .toggleMenu {
+    display: flex;
+  }
+}
+
+@media (max-width: 350px) {
+  .header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .toggleMenu span {
+    width: 28px;
+    height: 3px;
+  }
 }
