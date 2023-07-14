@@ -59,7 +59,6 @@ function App() {
     <AuthProvider>
       <Router>
         <div className={styles.App}>
-          <Header />
           <Routes>
             <Route element={<PublicRoute />}>
               <Route exact path="/" element={<Landing />} />

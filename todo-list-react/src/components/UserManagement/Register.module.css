@@ -23,3 +23,50 @@
 .successMsgContainer.active {
   display: block;
 }
+
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px;
+  margin-bottom: 100px;
+}
+
+.registerHeading {
+  padding: 20px;
+  font-size: 35px;
+  margin: 0 auto;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.registerForm input {
+  margin-bottom: 22px;
+  height: 50px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-left: 20px;
+}
+
+.registerButton {
+  border: 0px;
+  background-color: rgb(198, 13, 13);
+  height: 50px;
+  color: white;
+  border-radius: 5px;
+}
+
+@media (max-width: 400px) {
+  .registerForm,
+  .registerForm input {
+    width: 100%;
+  }
+
+  .registerHeading {
+    text-align: center;
+  }
+}

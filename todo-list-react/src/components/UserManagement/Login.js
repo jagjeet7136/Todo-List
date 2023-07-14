@@ -1,13 +1,17 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from "./Login.module.css";
+import todoSmallIcon from "../../icons/afe948043ef84572bdd6b4998c7c9528222.png";
 
 export const Login = () => {
     const authContext = useContext(AuthContext);
     const username = useRef("");
     const password = useRef("");
     const navigate = useNavigate();
+    const [errorMessage, setErrorMsg] = useState("");
+    const [isFormValid, setIsFormValid] = useState(true);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -18,47 +22,45 @@ export const Login = () => {
         axios
             .post("http://localhost:2222/user/login", loginObject)
             .then((res) => {
+                if (!isFormValid) {
+                    setIsFormValid(true);
+                }
                 authContext.login(res.data.token);
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("loggedIn", "true");
                 navigate('/dashboard');
             })
             .catch((error) => {
+                setIsFormValid(false);
+                setErrorMsg("Some error occured");
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        setErrorMsg("Wrong email or password");
+                    }
+                }
                 console.log(error);
             });
     };
 
-
     return (
-        <div className="login">
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-8 m-auto">
-                        <h1 className="display-4 text-center">Log In</h1>
-                        <form onSubmit={handleLogin}>
-                            <div className="form-group">
-                                <input
-                                    type="email"
-                                    className="form-control form-control-lg"
-                                    placeholder="Email Address"
-                                    name="email"
-                                    ref={username}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="password"
-                                    className="form-control form-control-lg"
-                                    placeholder="Password"
-                                    name="password"
-                                    ref={password}
-                                />
-                            </div>
-                            <input type="submit" className="btn btn-info btn-block mt-4" />
-                        </form>
-                    </div>
+        <div className={styles.login}>
+            <Link to="/"><img src={todoSmallIcon} alt=""></img></Link>
+            <form onSubmit={handleLogin} className={styles.loginForm}>
+                <h1 className={styles.loginHeading}>Login</h1>
+                <input type="email" required placeholder="Email" ref={username} className={styles.username} />
+                <input type="password" required placeholder="Password" ref={password}
+                    className={`${isFormValid ? styles.password : ""}`} />
+                <div className={`${styles.errorMessageContainer}
+                 ${!isFormValid ? styles.errorMessageContainer + " " + styles.active : ""}`}>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9YISfL4Lm8FJPRneGwEq8_-
+                    9Nim7YeuMJMw&usqp=CAU"
+                        alt=""></img>
+                    <h6 className={styles.errorMessage}>{errorMessage}</h6>
                 </div>
-            </div>
+                <button type="submit" className={styles.loginButton}>Login</button>
+                <h6 className={styles.loginContainer}>Don't have an account?&nbsp;&nbsp;<Link>Sign Up</Link></h6>
+            </form>
+            <h6 className={styles.tPContainer}><Link>Terms of use</Link>&nbsp;&nbsp;|&nbsp;&nbsp;<Link>Privacy Policy</Link></h6>
         </div>
     );
 }

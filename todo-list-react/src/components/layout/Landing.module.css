@@ -8,7 +8,6 @@
   display: flex;
   margin: 0px 20px;
   color: rgb(198, 13, 13);
-  height: 90vh;
 }
 
 .landingWrapper {
@@ -36,30 +35,20 @@
   .landing {
     flex-direction: column;
     margin: 0px 40px 0 40px;
-    justify-content: space-between;
+    align-items: center;
   }
 
   .landingWrapper {
     width: 100%;
-    align-self: center;
     height: 60%;
     padding-top: 40px;
-    /* margin-bottom: 0px; */
   }
-
-  /* .landingHeading {
-    font-size: 7vw;
-  }
-
-  .landingPara {
-    font-size: 2.5vw;
-  } */
 
   .landingImage {
-    /* margin-top: 0px; */
-    width: 80%;
-    align-self: center;
-    height: 40%;
+    width: 80vw;
+    height: 50vw;
+    object-fit: cover;
+    object-position: center;
   }
 }
 
