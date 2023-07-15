@@ -12,8 +12,12 @@ export const Login = () => {
     const navigate = useNavigate();
     const [errorMessage, setErrorMsg] = useState("");
     const [isFormValid, setIsFormValid] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = (e) => {
+        if (!isFormValid) {
+            setIsFormValid(true);
+        }
         e.preventDefault();
         const loginObject = {
             username: username.current.value,
@@ -22,9 +26,6 @@ export const Login = () => {
         axios
             .post("http://localhost:2222/user/login", loginObject)
             .then((res) => {
-                if (!isFormValid) {
-                    setIsFormValid(true);
-                }
                 authContext.login(res.data.token);
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("loggedIn", "true");
@@ -47,9 +48,14 @@ export const Login = () => {
             <Link to="/"><img src={todoSmallIcon} alt=""></img></Link>
             <form onSubmit={handleLogin} className={styles.loginForm}>
                 <h1 className={styles.loginHeading}>Login</h1>
-                <input type="email" required placeholder="Email" ref={username} className={styles.username} />
-                <input type="password" required placeholder="Password" ref={password}
-                    className={`${isFormValid ? styles.password : ""}`} />
+                <input type="email" placeholder="Email" ref={username} className={styles.username} />
+                <div className={`${styles.passwordContainer} ${isFormValid ? styles.passwordContainerMargin : ""}`} >
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" ref={password}
+                        className={styles.password} />
+                    <span className={styles.passwordToggle} onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? "Hide" : "Show"}
+                    </span>
+                </div>
                 <div className={`${styles.errorMessageContainer}
                  ${!isFormValid ? styles.errorMessageContainer + " " + styles.active : ""}`}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9YISfL4Lm8FJPRneGwEq8_-
@@ -58,7 +64,7 @@ export const Login = () => {
                     <h6 className={styles.errorMessage}>{errorMessage}</h6>
                 </div>
                 <button type="submit" className={styles.loginButton}>Login</button>
-                <h6 className={styles.loginContainer}>Don't have an account?&nbsp;&nbsp;<Link>Sign Up</Link></h6>
+                <h6 className={styles.loginContainer}>Don't have an account?&nbsp;&nbsp;<Link to="/register">Sign Up</Link></h6>
             </form>
             <h6 className={styles.tPContainer}><Link>Terms of use</Link>&nbsp;&nbsp;|&nbsp;&nbsp;<Link>Privacy Policy</Link></h6>
         </div>

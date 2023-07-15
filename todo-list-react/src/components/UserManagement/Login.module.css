@@ -31,8 +31,31 @@
   margin-bottom: 30px;
 }
 
-.password {
+.passwordContainerMargin {
   margin-bottom: 30px;
+}
+
+.passwordContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password {
+  height: 50px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 50px; /* Add padding on the right side for the toggle button */
+}
+
+.passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .loginButton {
@@ -87,7 +110,8 @@
 
 @media (max-width: 400px) {
   .loginForm,
-  .loginForm input {
+  .loginForm input,
+  .passwordContainer {
     width: 100%;
   }
 
