@@ -12,12 +12,16 @@ export const Register = () => {
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [isFormValid, setIsFormValid] = useState(true);
+    const [userCreated, setUserCreated] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const onSubmit = (event) => {
         if (!isFormValid) {
             setIsFormValid(true);
+        }
+        if (userCreated) {
+            setUserCreated(false);
         }
         event.preventDefault();
         const newUser = {
@@ -29,16 +33,19 @@ export const Register = () => {
         axios.post('http://localhost:2222/user', newUser)
             .then(response => {
                 console.log('Received user object:', response.data);
+                setUserCreated(true);
                 setSuccessMsg("User created Successfully");
             })
             .catch(error => {
                 console.error('Error:', error);
                 let caughtErrorMessage = "Some error occured!";
-                if (error.response.data.errors != null && error.response.data.errors.length > 0) {
-                    caughtErrorMessage = error.response.data.errors[0];
-                }
-                else if (error.response.data.message != null && error.response.data.message.trim().length > 0) {
-                    caughtErrorMessage = error.response.data.message;
+                if (error.response) {
+                    if (error.response.data.errors != null && error.response.data.errors.length > 0) {
+                        caughtErrorMessage = error.response.data.errors[0];
+                    }
+                    else if (error.response.data.message != null && error.response.data.message.trim().length > 0) {
+                        caughtErrorMessage = error.response.data.message;
+                    }
                 }
                 setErrorMsg(caughtErrorMessage);
                 setIsFormValid(false);
@@ -64,15 +71,18 @@ export const Register = () => {
                         {showPassword ? "Hide" : "Show"}
                     </span>
                 </div>
-                <div className={`${styles.confirmPasswordContainer} ${isFormValid ? "" : styles.confirmPasswordContainerMargin}`}>
+                <div className={`${styles.confirmPasswordContainer}`}>
                     <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password" ref={confirmPassword}
-                        className={styles.confirmPassword} />
+                        className={`${styles.confirmPassword} ${isFormValid ? styles.confirmPasswordMargin : styles.confirmPasswordNoMargin}
+                        ${userCreated ? styles.confirmPasswordNoMargin : styles.confirmPasswordMargin}`} />
                     <span className={styles.confirmPasswordToggle} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                         {showConfirmPassword ? "Hide" : "Show"}
                     </span>
                 </div>
-                <div className={isFormValid ? styles.successMsgContainer.active : styles.successMsgContainer}>
-                    <span className={styles.successMsg}>{successMsg}</span>
+                <div className={`${styles.successMsgContainer}
+                    ${userCreated ? styles.successMsgContainer + " " + styles.active : ""}`}>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLXFtnDBVOuZqvGW2E-Px5DdU8XU9nSoE9dg&usqp=CAU" alt=""></img>
+                    <h6 className={styles.successMsg}>{successMsg}</h6>
                 </div>
                 <div className={`${styles.errorMessageContainer}
                  ${!isFormValid ? styles.errorMessageContainer + " " + styles.active : ""}`}>
@@ -85,7 +95,7 @@ export const Register = () => {
                 <button type="submit" className={styles.registerButton}>Sign Up</button>
                 <h6 className={styles.loginContainer}>Already have an account?&nbsp;&nbsp;<Link to="/login">Log in</Link></h6>
             </form>
-            <h6 className={styles.tPContainer}><Link>Terms of use</Link>&nbsp;&nbsp;|&nbsp;&nbsp;<Link>Privacy Policy</Link></h6>
+            <h6 className={styles.tPContainer}><Link to="/about">About and Information</Link></h6>
         </div>
     );
 }

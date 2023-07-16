@@ -1,6 +1,5 @@
 import styles from "./App.css";
 import { Dashboard } from "./components/Dashboard";
-import { Header } from "./components/layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { AddTask } from "./components/task/AddTask";
@@ -11,6 +10,7 @@ import { Login } from "./components/UserManagement/Login";
 import { AuthContext, AuthProvider } from "./context/AuthContext";
 import { useContext } from "react";
 import jwt_decode from "jwt-decode";
+import { About } from "./components/layout/About";
 
 const PrivateRoute = () => {
   const authContext = useContext(AuthContext);
@@ -78,6 +78,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route exact path="/updateTask/:id" element={<UpdateTask />} />
             </Route>
+            <Route exact path="/about" element={<About />} />
           </Routes>
         </div>
       </Router>

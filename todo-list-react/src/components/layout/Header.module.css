@@ -18,6 +18,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px;
+  height: 10vh;
 }
 
 .headerList div a {

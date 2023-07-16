@@ -1,0 +1,89 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  margin: 70px 40px;
+  color: black;
+}
+
+.aboutHeading {
+  font-size: 80px;
+  margin: 60px 0px;
+}
+
+.aboutHr {
+  background-color: black;
+}
+
+.aboutContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutInformation {
+  display: flex;
+  margin-top: 50px;
+}
+
+.aboutInfo {
+  font-weight: bolder;
+}
+
+.aboutParaOne,
+.aboutParaTwo {
+  font-size: 22px;
+  width: 45%;
+}
+
+.aboutParaOne {
+  margin-left: 400px;
+  padding-top: 30px;
+}
+
+.aboutParaTwo {
+  margin-left: 248px;
+}
+
+.githubLink {
+  text-decoration: none;
+  font-weight: bolder;
+  color: black;
+}
+
+@media (max-width: 1250px) {
+  .aboutParaOne,
+  .aboutParaTwo {
+    margin-left: 0px;
+    font-size: 16px;
+    width: 70%;
+  }
+
+  .aboutInformation {
+    flex-direction: column;
+  }
+
+  .aboutHeading {
+    font-size: 55px;
+  }
+
+  .aboutInfo {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .aboutHeading {
+    font-size: 42px;
+  }
+
+  .aboutParaOne,
+  .aboutParaTwo {
+    width: 100%;
+  }
+}
+
+@media (max-width: 350px) {
+  .about {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+}

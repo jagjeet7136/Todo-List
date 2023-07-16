@@ -32,13 +32,19 @@ export const Login = () => {
                 navigate('/dashboard');
             })
             .catch((error) => {
-                setIsFormValid(false);
                 setErrorMsg("Some error occured");
                 if (error.response) {
                     if (error.response.status === 401) {
                         setErrorMsg("Wrong email or password");
                     }
+                    else if (error.response.data.errors != null && error.response.data.errors.length > 0) {
+                        setErrorMsg(error.response.data.errors[0]);
+                    }
+                    else if (error.response.data.message != null && error.response.data.message.trim().length > 0) {
+                        setErrorMsg(error.response.data.message);
+                    }
                 }
+                setIsFormValid(false);
                 console.log(error);
             });
     };
@@ -66,7 +72,7 @@ export const Login = () => {
                 <button type="submit" className={styles.loginButton}>Login</button>
                 <h6 className={styles.loginContainer}>Don't have an account?&nbsp;&nbsp;<Link to="/register">Sign Up</Link></h6>
             </form>
-            <h6 className={styles.tPContainer}><Link>Terms of use</Link>&nbsp;&nbsp;|&nbsp;&nbsp;<Link>Privacy Policy</Link></h6>
+            <h6 className={styles.tPContainer}><Link to="/about">About and Information</Link></h6>
         </div>
     );
 }
