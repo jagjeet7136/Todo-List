@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import styles from "./Register.module.css";
-import todoSmallIcon from "../../icons/afe948043ef84572bdd6b4998c7c9528222.png"
+import todoSmallIcon from "../../icons/newSmallIconGreen.png"
 import { Link } from "react-router-dom";
 
 export const Register = () => {
@@ -59,7 +59,7 @@ export const Register = () => {
 
     return (
         <div className={styles.register}>
-            <Link to="/"><img src={todoSmallIcon} alt=""></img></Link>
+            <Link to="/"><img src={todoSmallIcon} alt="" className={styles.registerIcon}></img></Link>
             <form onSubmit={onSubmit} className={styles.registerForm}>
                 <h1 className={styles.registerHeading}>Create Account</h1>
                 <input type="text" placeholder="Full Name" ref={userFullName} />

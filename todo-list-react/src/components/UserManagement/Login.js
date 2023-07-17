@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Login.module.css";
-import todoSmallIcon from "../../icons/afe948043ef84572bdd6b4998c7c9528222.png";
+import todoSmallIcon from "../../icons/newSmallIconGreen.png";
 
 export const Login = () => {
     const authContext = useContext(AuthContext);
@@ -51,7 +51,7 @@ export const Login = () => {
 
     return (
         <div className={styles.login}>
-            <Link to="/"><img src={todoSmallIcon} alt=""></img></Link>
+            <Link to="/"><img src={todoSmallIcon} alt="" className={styles.loginIcon}></img></Link>
             <form onSubmit={handleLogin} className={styles.loginForm}>
                 <h1 className={styles.loginHeading}>Login</h1>
                 <input type="email" placeholder="Email" ref={username} className={styles.username} />

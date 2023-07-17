@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
+.blackIcon {
+  height: 55px;
+  width: 155px;
+}
+
+.blackText div a {
+  color: black;
+}
+
 .flex {
   display: flex;
 }
@@ -24,7 +33,6 @@
 .headerList div a {
   list-style: none;
   margin-left: 20px;
-  color: rgb(198, 13, 13);
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
@@ -45,7 +53,10 @@
 .toggleMenu span {
   width: 35px;
   height: 4px;
-  background-color: rgb(198, 13, 13);
+}
+
+.blackText span {
+  background-color: black;
 }
 
 .toggleMenuOne {
@@ -85,7 +96,7 @@
 .navbar div a {
   text-decoration: none;
   margin: 10px;
-  color: rgb(198, 13, 13);
+  color: white;
 }
 
 @media (max-width: 450px) {

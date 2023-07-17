@@ -7,6 +7,11 @@
   height: 100vh;
 }
 
+.registerIcon {
+  height: 47px;
+  width: 37px;
+}
+
 .registerHeading {
   padding: 20px;
   font-size: 32px;
@@ -36,7 +41,7 @@
 
 .registerButton {
   border: 0px;
-  background-color: rgb(198, 13, 13);
+  background-color: #00aa95;
   height: 50px;
   color: white;
   border-radius: 5px;
@@ -83,7 +88,7 @@
 
 .tPContainer a {
   text-decoration: none;
-  color: rgb(198, 13, 13);
+  color: #00aa95;
 }
 
 .loginContainer {
@@ -92,7 +97,7 @@
 
 .loginContainer a {
   text-decoration: none;
-  color: rgb(198, 13, 13);
+  color: #00aa95;
 }
 
 .errorMessageContainer,

@@ -2,11 +2,12 @@ import { Header } from "./Header";
 import React from "react";
 import styles from "./About.module.css";
 import { Link } from "react-router-dom";
+import icon from "../../icons/blackIcon.png";
 
 export const About = () => {
     return (
         <React.Fragment>
-            <Header />
+            <Header textColor="blackText" icon={icon} />
             <div className={styles.about}>
                 <h1 className={styles.aboutHeading}>About and Information</h1>
                 <hr className={styles.aboutHr}></hr>

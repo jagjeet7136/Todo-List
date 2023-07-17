@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
-import todoIcon from "../../icons/todo-icon.png";
 
-export const Header = () => {
+export const Header = (props) => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
@@ -69,9 +68,9 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <Link to="/" onClick={mainPageHandler}><img src={todoIcon} alt=""></img></Link>
-      <div className={`${styles.headerList} ${styles.displayNone}`}>{headerList}</div>
-      <div className={styles.toggleMenu} onClick={toggleHandler}>
+      <Link to="/" onClick={mainPageHandler}><img src={props.icon} alt="" className={styles.blackIcon}></img></Link>
+      <div className={`${styles.headerList} ${styles.displayNone} ${styles[props.textColor]}`}>{headerList}</div>
+      <div className={`${styles.toggleMenu} ${styles[props.textColor]}`} onClick={toggleHandler}>
         <span className={styles.toggleMenuOne}></span>
         <span className={styles.toggleMenuTwo}></span>
       </div>
