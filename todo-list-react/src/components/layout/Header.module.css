@@ -4,13 +4,18 @@
   box-sizing: border-box;
 }
 
-.blackIcon {
-  height: 55px;
+.icon {
+  height: 52px;
   width: 155px;
+  margin-left: -8px;
 }
 
 .blackText div a {
   color: black;
+}
+
+.greenText div a {
+  color: #00aa95;
 }
 
 .flex {
@@ -59,6 +64,10 @@
   background-color: black;
 }
 
+.greenText span {
+  background-color: #00aa95;
+}
+
 .toggleMenuOne {
   margin-bottom: 5px;
 }
@@ -99,6 +108,13 @@
   color: white;
 }
 
+@media (max-width: 500px) {
+  .header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
 @media (max-width: 450px) {
   .displayNone {
     display: none;
@@ -110,11 +126,6 @@
 }
 
 @media (max-width: 350px) {
-  .header {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
   .toggleMenu span {
     width: 28px;
     height: 3px;

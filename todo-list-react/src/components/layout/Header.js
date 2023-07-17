@@ -68,7 +68,7 @@ export const Header = (props) => {
 
   return (
     <div className={styles.header}>
-      <Link to="/" onClick={mainPageHandler}><img src={props.icon} alt="" className={styles.blackIcon}></img></Link>
+      <Link to="/" onClick={mainPageHandler}><img src={props.icon} alt="" className={styles.icon}></img></Link>
       <div className={`${styles.headerList} ${styles.displayNone} ${styles[props.textColor]}`}>{headerList}</div>
       <div className={`${styles.toggleMenu} ${styles[props.textColor]}`} onClick={toggleHandler}>
         <span className={styles.toggleMenuOne}></span>
