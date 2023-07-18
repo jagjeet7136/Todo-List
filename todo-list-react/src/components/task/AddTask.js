@@ -3,6 +3,8 @@ import moment from "moment/moment";
 import axios from "axios";
 import styles from "./AddTask.module.css";
 import { AuthContext } from "../../context/AuthContext";
+import { Header } from "../layout/Header";
+import icon from "../../icons/newIcon.png"
 
 export const AddTask = () => {
   const enteredTaskTitle = useRef("");
@@ -79,6 +81,7 @@ export const AddTask = () => {
   console.log(authContext.loggedIn);
   return (
     <div>
+      <Header textColor="greenText" icon={icon} />
       <div className="Task">
         <div className="container">
           <div className="row">

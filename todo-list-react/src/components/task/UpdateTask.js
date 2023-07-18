@@ -3,6 +3,8 @@ import { Navigate, useLocation } from "react-router-dom";
 import styles from "./UpdateTask.module.css";
 import moment from "moment";
 import axios from "axios";
+import { Header } from "../layout/Header";
+import icon from "../../icons/newIcon.png";
 
 export const UpdateTask = () => {
     const enteredTaskTitle = useRef("");
@@ -75,6 +77,7 @@ export const UpdateTask = () => {
     }
 
     return (<div className="project">
+        <Header textColor="greenText" icon={icon} />
         <div className="container">
             <div className="row">
                 <div className="col-md-8 m-auto">

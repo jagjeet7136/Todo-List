@@ -3,6 +3,8 @@ import { CreateTaskButton } from "./task/CreateTaskButton";
 import { TaskItem } from "./task/TaskItem";
 import axios from "axios";
 import moment from "moment";
+import { Header } from "./layout/Header";
+import icon from "../icons/newIcon.png";
 
 export const Dashboard = () => {
 
@@ -28,6 +30,7 @@ export const Dashboard = () => {
 
   return (
     <div className="projects">
+      <Header textColor="greenText" icon={icon} />
       <div className="container">
         <div className="row">
           <div className="col-md-12">
