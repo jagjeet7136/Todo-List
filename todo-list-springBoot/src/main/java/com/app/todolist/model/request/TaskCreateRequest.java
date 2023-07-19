@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class TaskCreateRequest {
 
-    @NotBlank
+    @NotBlank(message = "Task name is required")
     private String taskTitle;
     private String notes;
     private String expiryDate;
