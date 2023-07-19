@@ -33,6 +33,10 @@ export const Register = () => {
         axios.post('http://localhost:2222/user', newUser)
             .then(response => {
                 console.log('Received user object:', response.data);
+                userFullName.current.value = "";
+                email.current.value = "";
+                password.current.value = "";
+                confirmPassword.current.value = "";
                 setUserCreated(true);
                 setSuccessMsg("User created Successfully");
             })
@@ -50,11 +54,6 @@ export const Register = () => {
                 setErrorMsg(caughtErrorMessage);
                 setIsFormValid(false);
             });
-
-        userFullName.current.value = "";
-        email.current.value = "";
-        password.current.value = "";
-        confirmPassword.current.value = "";
     }
 
     return (
