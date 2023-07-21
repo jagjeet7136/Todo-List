@@ -62,12 +62,6 @@ textarea {
   margin-bottom: 0px;
 }
 
-.dateContainer h6 {
-  width: 50%;
-  margin-bottom: 0px;
-  align-self: center;
-}
-
 .calendarIcon {
   position: absolute;
   top: 25%;
@@ -121,9 +115,13 @@ textarea {
   margin-right: 8px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 340px) {
   .form input,
   textarea {
+    width: 100%;
+  }
+
+  .dateContainer {
     width: 100%;
   }
 }
