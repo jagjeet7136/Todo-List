@@ -45,7 +45,6 @@ export const Login = () => {
                     }
                 }
                 setIsFormValid(false);
-                console.log(error);
             });
     };
 

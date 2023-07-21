@@ -43,7 +43,6 @@ export const AddTask = () => {
       notes: enteredNotes.current.value,
       expiryDate: expiryDateTemp,
     };
-    console.log(newTask);
 
     axios
       .post("http://localhost:2222/task", newTask, {
@@ -59,7 +58,6 @@ export const AddTask = () => {
         setSelectedDate(null);
       })
       .catch((error) => {
-        console.log(error);
         let caughtErrorMessage = "Some error occured!";
         if (error.response) {
           if (error.response.data.errors != null && error.response.data.errors.length > 0) {

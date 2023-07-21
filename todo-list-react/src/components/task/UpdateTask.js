@@ -60,7 +60,6 @@ export const UpdateTask = () => {
                 setSelectedDate(null);
             })
             .catch((error) => {
-                console.log(error);
                 let caughtErrorMessage = "Some error occured!";
                 if (error.response && error.response.data && error.response.data.message) {
                     caughtErrorMessage = error.response.data.message.toLowerCase();

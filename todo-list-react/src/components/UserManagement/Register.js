@@ -32,7 +32,6 @@ export const Register = () => {
         }
         axios.post('http://localhost:2222/user', newUser)
             .then(response => {
-                console.log('Received user object:', response.data);
                 userFullName.current.value = "";
                 email.current.value = "";
                 password.current.value = "";
@@ -41,7 +40,6 @@ export const Register = () => {
                 setSuccessMsg("User created Successfully");
             })
             .catch(error => {
-                console.error('Error:', error);
                 let caughtErrorMessage = "Some error occured!";
                 if (error.response) {
                     if (error.response.data.errors != null && error.response.data.errors.length > 0) {

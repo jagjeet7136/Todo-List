@@ -24,10 +24,9 @@ export const Dashboard = () => {
         setTasks(response.data);
       }
       catch (error) {
-        console.log(error);
       }
     })();
-  }, []);
+  }, [token]);
 
   return (
     <div className={styles.dashboard}>
