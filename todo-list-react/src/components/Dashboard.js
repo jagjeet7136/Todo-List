@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import { Header } from "./layout/Header";
 import icon from "../icons/newIcon.png";
+import styles from "./Dashboard.module.css";
 
 export const Dashboard = () => {
 
@@ -29,34 +30,27 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div className="projects">
+    <div className={styles.dashboard}>
       <Header textColor="greenText" icon={icon} />
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <h1 className="display-4 text-center">My Tasks</h1>
-            <br />
-            <CreateTaskButton />
-            <br />
-            <hr />
-            {
-              tasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  id={task.id.toString()}
-                  taskTitle={task.taskTitle}
-                  notes={task.notes}
-                  dueDate={task.expiryDate === null ? "" : moment(new Date(task.expiryDate)).format(
-                    "DD MMMM YYYY"
-                  )}
-                  reminder={task.reminder === null ? "" : moment(new Date(task.reminder)).format(
-                    "DD MMMM YYYY hh:mm A")}
-                  onDelete={handleDelete}
-                />
-              ))
-            }
-          </div>
-        </div>
+      <div className={styles.dashboardContainer}>
+        <h1 className={styles.dashboardHeading}>My Tasks</h1>
+        <CreateTaskButton />
+        {
+          tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              id={task.id.toString()}
+              taskTitle={task.taskTitle}
+              notes={task.notes}
+              dueDate={task.expiryDate === null ? "" : moment(new Date(task.expiryDate)).format(
+                "DD MMMM YYYY"
+              )}
+              reminder={task.reminder === null ? "" : moment(new Date(task.reminder)).format(
+                "DD MMMM YYYY hh:mm A")}
+              onDelete={handleDelete}
+            />
+          ))
+        }
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import styles from "./DeleteTask.module.css";
 
 export const DeleteTask = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,6 @@ export const DeleteTask = (props) => {
                 }
             })
             .then((res) => {
-                console.log(authContext.token);
                 props.onDelete(props.taskId);
             })
             .catch((error) => {
@@ -36,13 +36,15 @@ export const DeleteTask = (props) => {
     };
 
     return (
-        <div>
-            <button className="btn btn-danger" onClick={openDialog}>Delete</button>
+        <div className={styles.deleteTask}>
+            <button className={styles.deleteButton} onClick={openDialog}>Delete</button>
             {isOpen && (
-                <div className="delete-dialog">
-                    <p>Are you sure you want to delete?</p>
-                    <button onClick={handleDelete}>Yes</button>
-                    <button onClick={closeDialog}>No</button>
+                <div className={styles.deleteDialog}>
+                    <p className={styles.deleteDialogPara}>Are you sure you want to delete?</p>
+                    <div className={styles.deleteDialogButtons}>
+                        <button onClick={handleDelete}>Yes</button>
+                        <button onClick={closeDialog}>No</button>
+                    </div>
                 </div>
             )}
         </div>

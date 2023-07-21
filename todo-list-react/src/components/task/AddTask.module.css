@@ -117,7 +117,9 @@ textarea {
 
 @media (max-width: 340px) {
   .form input,
-  textarea {
+  textarea,
+  .errorMessageContainer,
+  .successMsgContainer {
     width: 100%;
   }
 

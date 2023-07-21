@@ -1,0 +1,60 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.taskItem {
+  display: flex;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 30px;
+  background-color: rgb(241, 241, 241);
+  margin: 20px 0 20px 0;
+}
+
+.nameNotes {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dueDate {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+}
+
+.updateDelete {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 25%;
+}
+
+@media (max-width: 1050px) {
+  .taskItem {
+    flex-direction: column;
+  }
+
+  .nameNotes,
+  .dueDate,
+  .updateDelete {
+    width: 100%;
+  }
+
+  .dueDate {
+    margin: 20px 0 40px 0;
+  }
+
+  .updateDelete {
+    align-items: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .taskItem {
+    padding: 30px 20px;
+  }
+}

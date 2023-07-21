@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./CreateTaskButton.module.css";
 
 export const UpdateTaskButton = (props) => {
 
@@ -11,7 +12,7 @@ export const UpdateTaskButton = (props) => {
     return (
         <React.Fragment>
             <button
-                className="btn btn-lg btn-primary"
+                className={styles.updateTaskButton}
                 onClick={handleClick}>Update Project
             </button>
         </React.Fragment>

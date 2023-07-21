@@ -1,0 +1,38 @@
+.createTaskButton,
+.updateTaskButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.createTaskButton {
+  background-color: #00aa95;
+  margin: 20px 0 20px 0;
+}
+
+.createTaskButton:hover,
+.updateTaskButton:hover {
+  background-color: #007e6f;
+  color: white;
+}
+
+.updateTaskButton {
+  background-color: #39a05b;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 500px) {
+  .createTaskButton,
+  .updateTaskButton {
+    width: 150px;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,51 @@
+.deleteTask {
+  width: 200px;
+}
+
+.deleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.3s;
+  border: none;
+  background-color: rgb(197, 2, 2);
+}
+
+.deleteButton:hover {
+  background-color: rgb(153, 1, 1);
+}
+
+.deleteDialog {
+  margin: 10px 0 10px 0;
+}
+
+.deleteDialogPara {
+  font-size: 13px;
+}
+
+.deleteDialogButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.deleteDialogButtons button {
+  width: 40%;
+  border: none;
+  background-color: green;
+  border-radius: 5px;
+  color: white;
+}
+
+@media (max-width: 500px) {
+  .deleteTask,
+  .deleteButton {
+    width: 150px;
+  }
+}
