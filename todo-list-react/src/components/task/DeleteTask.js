@@ -5,6 +5,8 @@ import styles from "./DeleteTask.module.css";
 export const DeleteTask = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const token = localStorage.getItem("token");
+    const deleteTaskEndpoint = process.env.REACT_APP_COMMON_TASK_ENDPOINT;
+
     const openDialog = () => {
         setIsOpen(true);
     };
@@ -15,7 +17,7 @@ export const DeleteTask = (props) => {
 
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:2222/task?taskId=${props.taskId}`, {
+            .delete(`${deleteTaskEndpoint}/?taskId=${props.taskId}`, {
                 headers: {
                     Authorization: token
                 }
@@ -24,6 +26,7 @@ export const DeleteTask = (props) => {
                 props.onDelete(props.taskId);
             })
             .catch((error) => {
+                console.log(error);
             });
 
         closeDialog();

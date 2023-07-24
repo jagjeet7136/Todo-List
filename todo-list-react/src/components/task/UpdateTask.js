@@ -51,7 +51,7 @@ export const UpdateTask = () => {
         };
 
         axios
-            .patch("http://localhost:2222/task", newTask, { headers: { Authorization: token } })
+            .patch(process.env.REACT_APP_COMMON_TASK_ENDPOINT, newTask, { headers: { Authorization: token } })
             .then((res) => {
                 setTaskUpdated(true);
                 setMessage("Task Updated Successfully");

@@ -24,7 +24,7 @@ export const Login = () => {
             password: password.current.value
         }
         axios
-            .post("http://localhost:2222/user/login", loginObject)
+            .post(process.env.REACT_APP_LOGIN_USER_ENDPOINT, loginObject)
             .then((res) => {
                 authContext.login(res.data.token);
                 localStorage.setItem("token", res.data.token);

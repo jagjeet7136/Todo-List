@@ -45,7 +45,7 @@ export const AddTask = () => {
     };
 
     axios
-      .post("http://localhost:2222/task", newTask, {
+      .post(process.env.REACT_APP_COMMON_TASK_ENDPOINT, newTask, {
         headers: {
           Authorization: token
         }
