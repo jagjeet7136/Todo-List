@@ -5,19 +5,19 @@
 
     <property name="logPattern" value="%blue(%d{yyyy-MM-dd HH:mm:ss.SSS, Asia/Kolkata}) [%thread] %red(%-5level)
     %cyan(%logger{36}) - %yellow(%msg%n)" />
-    <property name="logFileName" value="D:\\Spring-Logs\\todolist-logs\\hello" />
+    <property name="logFileName" value="path" />  <!--Your Path to save log file -->
 
-    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+ <!--   <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>${logPattern}</pattern>
         </encoder>
         <file>${logFileName}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
+            //daily rollover
             <fileNamePattern>${logFileName}-%d{dd-MM-yyyy}.log</fileNamePattern>
-            <maxHistory>7</maxHistory>
+            <maxHistory>7</maxHistory>  //Number of log files to retain
         </rollingPolicy>
-    </appender>
+    </appender> -->
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -27,6 +27,6 @@
 
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="ROLLING-FILE" />
+    <!--    <appender-ref ref="ROLLING-FILE" /> -->
     </root>
 </configuration>

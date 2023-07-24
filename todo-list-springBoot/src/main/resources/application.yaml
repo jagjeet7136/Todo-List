@@ -1,5 +1,3 @@
-server:
-  port: 2222
 
 banner:
   location: banner.txt
@@ -9,7 +7,7 @@ spring:
     url: jdbc:mysql://localhost:3306/todo_list
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     generate-ddl: true
