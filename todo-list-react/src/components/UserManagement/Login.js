@@ -26,9 +26,11 @@ export const Login = () => {
         axios
             .post(process.env.REACT_APP_LOGIN_USER_ENDPOINT, loginObject)
             .then((res) => {
-                authContext.login(res.data.token);
+                //Following three lines can be deleted if API hitting components use authContext istead of localstorage for token
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("loggedIn", "true");
+                localStorage.setItem("username", username.current.value);
+                authContext.login(res.data.token, username.current.value);
                 navigate('/dashboard');
             })
             .catch((error) => {

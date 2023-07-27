@@ -48,7 +48,7 @@ export const Header = (props) => {
   const headerList = authContext.loggedIn ? (
     <div>
       <Link to="/dashboard" onClick={toggleHandlerTwo}>
-        Dashboard
+        {authContext.username}
       </Link>
       <Link to="/login" onClick={logoutHandler}>
         Logout
