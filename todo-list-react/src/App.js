@@ -8,7 +8,7 @@ import { Landing } from "./components/layout/Landing";
 import { Register } from "./components/UserManagement/Register";
 import { Login } from "./components/UserManagement/Login";
 import { AuthContext, AuthProvider } from "./context/AuthContext";
-import { useContext } from "react";
+import { useContext, useLayoutEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { About } from "./components/layout/About";
 
@@ -17,11 +17,13 @@ const PrivateRoute = () => {
   const loggedIn = authContext.loggedIn;
   const token = localStorage.getItem("token");
   const isTokenExpiredVal = isTokenExpired(token);
+  useLayoutEffect(() => {  //It ensures that logout happens after component rendering and before updating UI.
+    if (isTokenExpiredVal) {
+      authContext.logout();
+    }
+  }, [isTokenExpiredVal, authContext]);
+
   if (!loggedIn) {
-    return <Navigate to="/login" />;
-  }
-  if (isTokenExpiredVal) {
-    authContext.logout();
     return <Navigate to="/login" />;
   }
   return <Outlet />;
