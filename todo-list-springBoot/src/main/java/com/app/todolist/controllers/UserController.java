@@ -1,6 +1,6 @@
 package com.app.todolist.controller;
 
-import com.app.todolist.configuration.JwtTokenProvider;
+import com.app.todolist.configurations.JwtTokenProvider;
 import com.app.todolist.constants.SecurityConstants;
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
@@ -14,6 +14,7 @@ import com.app.todolist.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -42,8 +45,8 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest) throws
-            ValidationException {
+    public ResponseEntity<User> createUser( @ModelAttribute @Valid UserCreateRequest userCreateRequest) throws
+            ValidationException, IOException {
         log.info("Request received for new user creation {}", userCreateRequest);
         User user = userService.createUser(userCreateRequest);
         log.info("User created successfully {}", user);
@@ -94,6 +97,14 @@ public class UserController {
         String token = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.helperGenerateToken(authentication);
         log.info("Token generated: {}", token);
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, token));
+    }
+
+    @PostMapping(value = "/upload/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadImage(@RequestParam("userId") Long userId, @RequestParam("imageFile")
+            MultipartFile imageFile) throws IOException {
+        log.info("Request received for uploading image of user id and image : {} {}", userId, imageFile.getName());
+        String path = userService.saveProfileImage(imageFile);
+        return ResponseEntity.ok(path);
     }
 
 }

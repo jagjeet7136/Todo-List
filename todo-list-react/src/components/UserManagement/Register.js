@@ -15,12 +15,6 @@ export const Register = () => {
     const [userCreated, setUserCreated] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [image, setImage] = useState(null);
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setImage(file);
-    };
 
     const onSubmit = (event) => {
         if (!isFormValid) {
@@ -35,7 +29,6 @@ export const Register = () => {
             email: email.current.value,
             password: password.current.value,
             confirmPassword: confirmPassword.current.value,
-            image: image
         }
         axios.post(process.env.REACT_APP_COMMON_USER_ENDPOINT, newUser)
             .then(response => {
@@ -67,7 +60,6 @@ export const Register = () => {
             <form onSubmit={onSubmit} className={styles.registerForm}>
                 <h1 className={styles.registerHeading}>Create Account</h1>
                 <input type="text" placeholder="Full Name" ref={userFullName} />
-                <input type="file" onChange={handleImageChange} />
                 <input type="email" placeholder="Email" ref={email} />
                 <div className={styles.passwordContainer}>
                     <input type={showPassword ? "text" : "password"} placeholder="Password" ref={password}

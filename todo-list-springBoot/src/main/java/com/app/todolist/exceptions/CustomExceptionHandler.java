@@ -1,7 +1,5 @@
-package com.app.todolist.configuration;
+package com.app.todolist.exception;
 
-import com.app.todolist.exception.NotFoundException;
-import com.app.todolist.exception.ValidationException;
 import com.app.todolist.model.dto.ApiErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

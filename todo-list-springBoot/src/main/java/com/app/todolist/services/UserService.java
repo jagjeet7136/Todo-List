@@ -12,6 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,7 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User createUser(UserCreateRequest userCreateRequest) throws ValidationException {
+    public User createUser(UserCreateRequest userCreateRequest) throws ValidationException, IOException {
         if(!userCreateRequest.getPassword().trim().equals(userCreateRequest.getConfirmPassword().trim())) {
             throw new ValidationException("passwords do not match");
         }
@@ -79,6 +84,12 @@ public class UserService {
 
     public User getLoggedInUser(Principal principal) {
         return (User) ((Authentication) principal).getPrincipal();
+    }
+
+    public String saveProfileImage(MultipartFile file) throws IOException {
+        String path = "D:\\Full-Stack-Projects-Data\\amazon-clone\\users-images";
+        Files.copy(file.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+        return path;
     }
 
 }
