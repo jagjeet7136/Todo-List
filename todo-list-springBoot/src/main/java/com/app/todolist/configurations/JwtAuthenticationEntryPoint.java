@@ -1,4 +1,4 @@
-package com.app.todolist.configuration;
+package com.app.todolist.configurations;
 
 import com.app.todolist.model.response.InvalidLoginResponse;
 import com.google.gson.Gson;

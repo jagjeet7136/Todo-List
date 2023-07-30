@@ -1,13 +1,13 @@
-package com.app.todolist.controller;
+package com.app.todolist.controllers;
 
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
-import com.app.todolist.exception.NotFoundException;
-import com.app.todolist.exception.ValidationException;
+import com.app.todolist.exceptions.NotFoundException;
+import com.app.todolist.exceptions.ValidationException;
 import com.app.todolist.model.request.TaskCreateRequest;
 import com.app.todolist.model.request.TaskUpdateRequest;
-import com.app.todolist.service.TaskService;
-import com.app.todolist.service.UserService;
+import com.app.todolist.services.TaskService;
+import com.app.todolist.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

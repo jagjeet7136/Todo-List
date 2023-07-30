@@ -1,4 +1,4 @@
-package com.app.todolist.configuration;
+package com.app.todolist.configurations;
 
 import com.app.todolist.entity.User;
 import com.app.todolist.repository.UserRepository;

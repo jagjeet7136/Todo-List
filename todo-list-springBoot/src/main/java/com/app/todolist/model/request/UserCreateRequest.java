@@ -1,7 +1,6 @@
 package com.app.todolist.model.request;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.*;
 
 @Data
@@ -23,5 +22,4 @@ public class UserCreateRequest {
     @Size(min = 6, max = 100, message = "password should between 6 and 100 characters.")
     private String confirmPassword;
 
-    private MultipartFile image;
 }

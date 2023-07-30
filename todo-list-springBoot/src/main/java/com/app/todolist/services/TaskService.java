@@ -1,9 +1,9 @@
-package com.app.todolist.service;
+package com.app.todolist.services;
 
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
-import com.app.todolist.exception.NotFoundException;
-import com.app.todolist.exception.ValidationException;
+import com.app.todolist.exceptions.NotFoundException;
+import com.app.todolist.exceptions.ValidationException;
 import com.app.todolist.model.request.TaskCreateRequest;
 import com.app.todolist.model.request.TaskUpdateRequest;
 import com.app.todolist.repository.TaskRepository;

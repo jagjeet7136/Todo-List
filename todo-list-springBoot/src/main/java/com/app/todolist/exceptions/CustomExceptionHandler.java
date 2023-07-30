@@ -1,4 +1,4 @@
-package com.app.todolist.exception;
+package com.app.todolist.exceptions;
 
 import com.app.todolist.model.dto.ApiErrorDTO;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -53,18 +51,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorDTO, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<Object> handleConstraintViolation(
-            ConstraintViolationException ex, WebRequest request) {
-        List<String> errors = new ArrayList<>();
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            errors.add(violation.getPropertyPath() + ": " + violation.getMessage());
-        }
-        ApiErrorDTO apiError =
-                new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors, LocalDateTime.now());
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
+    //This is needed when we directly work with javax.validation
+//    @ExceptionHandler({ConstraintViolationException.class})
+//    public ResponseEntity<Object> handleConstraintViolation(
+//            ConstraintViolationException ex, WebRequest request) {
+//        List<String> errors = new ArrayList<>();
+//        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+//            errors.add(violation.getPropertyPath() + ": " + violation.getMessage());
+//        }
+//        ApiErrorDTO apiError =
+//                new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors, LocalDateTime.now());
+//        return new ResponseEntity<Object>(
+//                apiError, new HttpHeaders(), apiError.getStatus());
+//    }
 
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<ApiErrorDTO> handleDateTimeParseException(HttpServletRequest req, NotFoundException ex) {

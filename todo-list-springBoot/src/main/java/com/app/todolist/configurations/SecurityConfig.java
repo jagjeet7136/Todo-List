@@ -1,4 +1,4 @@
-package com.app.todolist.configuration;
+package com.app.todolist.configurations;
 
 import com.app.todolist.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
