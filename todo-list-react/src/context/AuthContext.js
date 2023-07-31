@@ -10,24 +10,27 @@ const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(storedLoggedIn);
     const [token, setToken] = useState(storedToken);
     const [username, setUsername] = useState(storedUsername);
+    const [user, setUser] = useState(null);
 
-    //This is because so that if any state variable change should change localStorage values to keep first comment valid
+    //This is because so that if any state variable change should change localStorage values to keep former comment valid
     useEffect(() => {
         localStorage.setItem('token', token);
         localStorage.setItem('loggedIn', loggedIn.toString());
         localStorage.setItem("username", username.toString());
     }, [token, loggedIn, username]);
 
-    const login = (newToken, newUsername) => {
+    const login = (newToken, newUsername, newUser) => {
         setToken(newToken);
         setLoggedIn(true);
         setUsername(newUsername);
+        setUser(newUser);
     };
 
     const logout = () => {
         setToken('');
         setLoggedIn(false);
         setUsername("");
+        setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("loggedIn");
     };

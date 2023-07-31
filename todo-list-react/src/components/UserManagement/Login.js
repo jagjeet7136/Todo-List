@@ -26,6 +26,15 @@ export const Login = () => {
         axios
             .post(process.env.REACT_APP_LOGIN_USER_ENDPOINT, loginObject)
             .then((res) => {
+                axios.get(`${process.env.REACT_APP_GET_USER_ENDPOINT}/?username=${username.current.value}`, {
+                    headers: {
+                        Authorization: res.data.token
+                    }
+                })
+                    .then((innerRes) => {
+                    })
+                    .catch((innerError) => {
+                    });
                 //Following three lines can be deleted if API hitting components use authContext istead of localstorage for token
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("loggedIn", "true");
