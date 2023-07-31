@@ -4,6 +4,7 @@ import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
 import com.app.todolist.exceptions.NotFoundException;
 import com.app.todolist.exceptions.ValidationException;
+import com.app.todolist.exceptions.ForbiddenException;
 import com.app.todolist.model.request.UserCreateRequest;
 import com.app.todolist.model.request.UserUpdateRequest;
 import com.app.todolist.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +40,16 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-//    public User getUser(String username) throws NotFoundException {
-//        User user = userRepository.findByUsername(username);
-//        if(user==null) {
-//            throw new NotFoundException("User not found with username: " + username);
-//        }
-//        return user;
-//    }
+    public User getUser(String username, String savedUser) throws NotFoundException {
+        if(!username.equals(savedUser)) {
+            throw new ForbiddenException("Cannot get the user : " + username);
+        }
+        User user = userRepository.findByUsername(username);
+        if(user==null) {
+            throw new NotFoundException("User not found with username : " + username);
+        }
+        return user;
+    }
 
     public User updateUser(UserUpdateRequest userUpdateRequest, User user) throws NotFoundException {
         user.setUserFullName(userUpdateRequest.getUserFullName());

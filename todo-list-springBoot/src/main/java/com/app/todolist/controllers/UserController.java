@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.security.Principal;
 import java.util.List;
 
@@ -50,14 +51,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-// This API is for Admin purposes which will be effective after adding Roles to the users
-//    @GetMapping
-//    public ResponseEntity<User> getUser(@NotBlank @RequestParam String username) throws NotFoundException {
-//        log.info("Request received for fetching a user {}", username);
-//        User user = userService.getUser(username);
-//        log.info("User fetched successfully {}", user);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
+    @GetMapping("/getUser")
+    public ResponseEntity<User> getUser(@NotBlank @RequestParam String username, Principal principal) throws
+            NotFoundException {
+        log.info("Request received for fetching a user : {}", username);
+        User user = userService.getUser(username, principal.getName());
+        log.info("User fetched successfully {}", user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
     @PatchMapping
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, Principal

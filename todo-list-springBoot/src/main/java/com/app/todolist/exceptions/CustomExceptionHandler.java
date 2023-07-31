@@ -51,6 +51,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorDTO, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiErrorDTO> handleForbiddenException(HttpServletRequest req, ForbiddenException ex) {
+        ApiErrorDTO apiErrorDTO = handleAllExceptions(ex);
+        apiErrorDTO.setStatus(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(apiErrorDTO, HttpStatus.FORBIDDEN);
+    }
+
     //This is needed when we directly work with javax.validation
 //    @ExceptionHandler({ConstraintViolationException.class})
 //    public ResponseEntity<Object> handleConstraintViolation(
