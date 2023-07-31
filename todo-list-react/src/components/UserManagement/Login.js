@@ -13,7 +13,7 @@ export const Login = () => {
     const [errorMessage, setErrorMsg] = useState("");
     const [isFormValid, setIsFormValid] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
-
+    let user = null;
     const handleLogin = (e) => {
         if (!isFormValid) {
             setIsFormValid(true);
@@ -26,12 +26,23 @@ export const Login = () => {
         axios
             .post(process.env.REACT_APP_LOGIN_USER_ENDPOINT, loginObject)
             .then((res) => {
-                //Following three lines can be deleted if API hitting components use authContext istead of localstorage for token
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("loggedIn", "true");
-                localStorage.setItem("username", username.current.value);
-                authContext.login(res.data.token, username.current.value);
-                navigate('/dashboard');
+                axios.get(`${process.env.REACT_APP_GET_USER_ENDPOINT}/?username=${username.current.value}`, {
+                    headers: {
+                        Authorization: res.data.token
+                    }
+                })
+                    .then((innerRes) => {
+                        //Following three lines can be deleted if API hitting components use authContext istead of localstorage for token
+                        localStorage.setItem("token", res.data.token);
+                        localStorage.setItem("loggedIn", "true");
+                        localStorage.setItem("username", username.current.value);
+                        authContext.login(res.data.token, username.current.value);
+                        navigate('/dashboard');
+                        user = innerRes.data;
+                        authContext.setUserFunction(user);
+                    })
+                    .catch((innerError) => {
+                    });
             })
             .catch((error) => {
                 setErrorMsg("Some error occured");

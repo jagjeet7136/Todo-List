@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
@@ -44,6 +44,12 @@ export const Header = (props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [isActive]);
+
+  const userProfileImage = useMemo(() => {
+    return authContext.user && authContext.user.imageUrl
+      ? authContext.user.imageUrl
+      : "../../images/default-profile-picture.png";
+  }, [authContext.user]); //when user object changes only then it is recomputed
 
   const headerList = authContext.loggedIn ? (
     <div>
