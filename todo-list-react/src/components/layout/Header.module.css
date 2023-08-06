@@ -108,6 +108,12 @@
   color: white;
 }
 
+.profileImage {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+}
+
 @media (max-width: 500px) {
   .header {
     padding-left: 20px;

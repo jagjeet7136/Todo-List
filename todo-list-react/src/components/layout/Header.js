@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
@@ -7,11 +7,6 @@ export const Header = (props) => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
-
-  const logoutHandler = () => {
-    authContext.logout();
-    toggleHandlerTwo();
-  };
 
   const mainPageHandler = (event) => {
     if (authContext.loggedIn) {
@@ -24,11 +19,16 @@ export const Header = (props) => {
     setIsActive((prevState) => !prevState);
   }
 
-  const toggleHandlerTwo = () => {
+  const toggleHandlerTwo = useCallback(() => {  //useCallback for memoising function avoids unnecessary reference change
     if (isActive) {
       setIsActive(false);
     }
-  }
+  }, [isActive]);
+
+  const logoutHandler = useCallback(() => {
+    authContext.logout();
+    toggleHandlerTwo();
+  }, [toggleHandlerTwo, authContext]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,29 +48,30 @@ export const Header = (props) => {
   const userProfileImage = useMemo(() => {
     return authContext.user && authContext.user.imageUrl
       ? authContext.user.imageUrl
-      : "../../images/default-profile-picture.png";
-  }, [authContext.user]); //when user object changes only then it is recomputed
+      : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
+  }, [authContext.user]); //useMemo is for avoiding unnecessary computation, when user in authContext changes then it is recomputed
 
-  const headerList = authContext.loggedIn ? (
-    <div>
-      <Link to="/dashboard" onClick={toggleHandlerTwo}>
-        {authContext.username}
-      </Link>
-      <Link to="/login" onClick={logoutHandler}>
-        Logout
-      </Link>
-
-    </div>
-  ) : (
-    <div>
-      <Link to="/register" onClick={toggleHandlerTwo}>
-        Sign Up
-      </Link>
-      <Link to="/login" onClick={toggleHandlerTwo}>
-        Login
-      </Link>
-    </div>
-  );
+  const headerList = useMemo(() => {
+    return authContext.loggedIn ? (
+      <div>
+        <Link to="/dashboard" onClick={toggleHandlerTwo}>
+          <img src={userProfileImage} alt="user" className={styles.profileImage}></img>
+        </Link>
+        <Link to="/login" onClick={logoutHandler}>
+          Logout
+        </Link>
+      </div>
+    ) : (
+      <div>
+        <Link to="/register" onClick={toggleHandlerTwo}>
+          Sign Up
+        </Link>
+        <Link to="/login" onClick={toggleHandlerTwo}>
+          Login
+        </Link>
+      </div>
+    );
+  }, [authContext.loggedIn, toggleHandlerTwo, logoutHandler, userProfileImage]);
 
   return (
     <div className={styles.header}>

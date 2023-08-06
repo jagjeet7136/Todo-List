@@ -21,7 +21,7 @@ export const About = () => {
                             entirely open source, therefore, anyone can download, add, update the code according to their need from
                             <Link to="https://github.com/jagjeet7136/Todo-List" target="_blank" rel="noopener noreferrer"
                                 className={styles.githubLink}> HERE</Link>. Also developers can raise PR request if they are interested to
-                            collaborate and contribute to open source project. Moreover, It is strictly advided to use any random passwords
+                            collaborate and contribute to open source project. Moreover, It is strictly advised to use any random passwords
                             not which you use in your daily life.</p>
                     </div>
                 </div>
