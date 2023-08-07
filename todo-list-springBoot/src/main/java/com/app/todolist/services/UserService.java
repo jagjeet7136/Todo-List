@@ -13,6 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,4 +91,12 @@ public class UserService {
         return (User) ((Authentication) principal).getPrincipal();
     }
 
+    public String saveProfileImage(MultipartFile file, User user) throws IOException {
+        String path = "D:\\Full-Stack-Projects-Data\\amazon-clone\\users-images\\" + user.getUsername();
+        Files.copy(file.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+        user.setImageUrl(path);
+        userRepository.save(user);
+        return path;
+    }
 }
+

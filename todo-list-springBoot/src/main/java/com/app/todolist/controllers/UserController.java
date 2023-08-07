@@ -1,11 +1,13 @@
 package com.app.todolist.controllers;
 
+import com.app.todolist.annotations.FileSize;
 import com.app.todolist.configurations.JwtTokenProvider;
 import com.app.todolist.constants.SecurityConstants;
 import com.app.todolist.entity.Task;
 import com.app.todolist.entity.User;
 import com.app.todolist.exceptions.NotFoundException;
 import com.app.todolist.exceptions.ValidationException;
+import com.app.todolist.model.request.ImageUploadRequest;
 import com.app.todolist.model.request.LoginRequest;
 import com.app.todolist.model.request.UserCreateRequest;
 import com.app.todolist.model.request.UserUpdateRequest;
@@ -21,8 +23,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -95,6 +99,16 @@ public class UserController {
         String token = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.helperGenerateToken(authentication);
         log.info("Token generated: {}", token);
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, token));
+    }
+
+    @PostMapping("/upload/profile-image")
+    public ResponseEntity<String> uploadProfileImage(@Valid @ModelAttribute ImageUploadRequest
+                                                                 profileImage, Principal principal) throws IOException {
+        log.info("Request received for uploading user image : {}", principal.getName());
+        User loggedInUser = userService.getLoggedInUser(principal);
+        String path = userService.saveProfileImage(profileImage.getFile(), loggedInUser);
+        log.info("Image saved at location {}", path);
+        return new ResponseEntity<>(path, HttpStatus.OK);
     }
 
 }
