@@ -1,7 +1,7 @@
 package com.app.todolist.model.request;
 
 import com.app.todolist.annotations.FileSize;
-import lombok.Data;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data

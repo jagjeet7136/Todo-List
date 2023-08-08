@@ -10,6 +10,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     generate-ddl: true

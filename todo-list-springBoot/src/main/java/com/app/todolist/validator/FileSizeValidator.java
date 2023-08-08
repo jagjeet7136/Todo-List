@@ -7,11 +7,12 @@ import javax.validation.ConstraintValidatorContext;
 
 public class FileSizeValidator implements ConstraintValidator<FileSize, MultipartFile> {
 
-    private long maxSize=1024*1024;
+    private static final Integer maxSize=1024*1024;
+    private long maxSizeInMB;
 
     @Override
     public void initialize(FileSize constraintAnnotation) {
-        this.maxSize = constraintAnnotation.max();
+        this.maxSizeInMB = constraintAnnotation.max();
     }
 
     @Override
@@ -19,6 +20,6 @@ public class FileSizeValidator implements ConstraintValidator<FileSize, Multipar
         if (file.isEmpty()) {
             return false;
         }
-        return file.getSize() <= maxSize;
+        return file.getSize() <= maxSize*maxSizeInMB;
     }
 }
