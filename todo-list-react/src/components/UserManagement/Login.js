@@ -14,6 +14,7 @@ export const Login = () => {
     const [isFormValid, setIsFormValid] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     let user = null;
+
     const handleLogin = (e) => {
         if (!isFormValid) {
             setIsFormValid(true);
@@ -32,14 +33,14 @@ export const Login = () => {
                     }
                 })
                     .then((innerRes) => {
-                        //Following three lines can be deleted if API hitting components use authContext istead of localstorage for token
+                        //Following three lines of localStorage can be deleted if API hitting components use authContext istead of localstorage for token
+                        user = innerRes.data;
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("loggedIn", "true");
                         localStorage.setItem("username", username.current.value);
-                        authContext.login(res.data.token, username.current.value);
+                        localStorage.setItem("user", JSON.stringify(user));
+                        authContext.login(res.data.token, username.current.value, user);
                         navigate('/dashboard');
-                        user = innerRes.data;
-                        authContext.setUserFunction(user);
                     })
                     .catch((innerError) => {
                     });

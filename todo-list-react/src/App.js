@@ -11,6 +11,7 @@ import { AuthContext, AuthProvider } from "./context/AuthContext";
 import { useContext, useLayoutEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { About } from "./components/layout/About";
+import { Profile } from "./components/layout/Profile";
 
 const PrivateRoute = () => {
   const authContext = useContext(AuthContext);
@@ -81,6 +82,9 @@ function App() {
               <Route exact path="/updateTask/:id" element={<UpdateTask />} />
             </Route>
             <Route exact path="/about" element={<About />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
           </Routes>
         </div>
       </Router>

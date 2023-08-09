@@ -54,7 +54,7 @@ export const Header = (props) => {
   const headerList = useMemo(() => {
     return authContext.loggedIn ? (
       <div>
-        <Link to="/dashboard" onClick={toggleHandlerTwo}>
+        <Link to="/profile" onClick={toggleHandlerTwo}>
           <img src={userProfileImage} alt="user" className={styles.profileImage}></img>
         </Link>
         <Link to="/login" onClick={logoutHandler}>
