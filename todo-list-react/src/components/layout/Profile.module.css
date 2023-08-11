@@ -1,0 +1,49 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profilePicture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#changeButton {
+  margin-top: 10px;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+#fileInput {
+  display: none;
+}
+
+#customFileButton {
+  background-color: rgb(41, 161, 5);
+  margin: 10px;
+}
+
+#customFileButton,
+.deleteButton {
+  display: inline-block;
+  padding: 6px 12px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 140px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.deleteButton {
+  background-color: rgb(189, 3, 3);
+}
+
+.errorMessage {
+  color: red;
+  margin: 5px;
+}
