@@ -111,4 +111,11 @@ public class UserController {
         return new ResponseEntity<>(path, HttpStatus.OK);
     }
 
+    @DeleteMapping("delete/profile-image")
+    public void deleteProfileImage(Principal principal) {
+        log.info("Request received for deleting user image : {}", principal.getName());
+        User loggedInUser = userService.getLoggedInUser(principal);
+        userService.deleteProfileImage(loggedInUser);
+        log.info("Image deleted successfully");
+    }
 }

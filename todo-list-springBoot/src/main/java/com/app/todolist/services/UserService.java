@@ -92,11 +92,17 @@ public class UserService {
     }
 
     public String saveProfileImage(MultipartFile file, User user) throws IOException {
-        String path = "D:\\Full-Stack-Projects-Data\\amazon-clone\\users-images\\" + user.getUsername();
-        Files.copy(file.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+        String path = "https://cdn.pixabay.com/photo/2023/07/24/01/31/plane-8145957_1280.jpg";
+//        String path = "D:\\Full-Stack-Projects-Data\\amazon-clone\\users-images\\" + user.getUsername();
+//        Files.copy(file.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
         user.setImageUrl(path);
         userRepository.save(user);
         return path;
+    }
+
+    public void deleteProfileImage(User user) {
+        user.setImageUrl(null);
+        userRepository.save(user);
     }
 }
 
