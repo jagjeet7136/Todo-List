@@ -1,6 +1,5 @@
 package com.app.todolist.controllers;
 
-import com.app.todolist.annotations.FileSize;
 import com.app.todolist.configurations.JwtTokenProvider;
 import com.app.todolist.constants.SecurityConstants;
 import com.app.todolist.entity.Task;
@@ -23,7 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
@@ -34,7 +32,6 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @Validated
-@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -46,7 +43,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest) throws
             ValidationException {
         log.info("Request received for new user creation {}", userCreateRequest);
