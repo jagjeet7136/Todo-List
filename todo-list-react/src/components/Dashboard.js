@@ -20,7 +20,7 @@ export const Dashboard = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_COMMON_USER_ENDPOINT, { headers: { Authorization: token } });
+        const response = await axios.get(process.env.REACT_APP_COMMON_USER_LOCAL_ENDPOINT, { headers: { Authorization: token } });
         setTasks(response.data);
       }
       catch (error) {

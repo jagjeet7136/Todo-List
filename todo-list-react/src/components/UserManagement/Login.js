@@ -25,9 +25,9 @@ export const Login = () => {
             password: password.current.value
         }
         axios
-            .post(process.env.REACT_APP_LOGIN_USER_ENDPOINT, loginObject)
+            .post(process.env.REACT_APP_USER_LOGIN_LOCAL_ENDPOINT, loginObject)
             .then((res) => {
-                axios.get(`${process.env.REACT_APP_GET_USER_ENDPOINT}/?username=${username.current.value}`, {
+                axios.get(`${process.env.REACT_APP_COMMON_USER_LOCAL_ENDPOINT}/?username=${username.current.value}`, {
                     headers: {
                         Authorization: res.data.token
                     }
@@ -46,6 +46,7 @@ export const Login = () => {
                     });
             })
             .catch((error) => {
+                console.log(error);
                 setErrorMsg("Some error occured");
                 if (error.response) {
                     if (error.response.status === 401) {

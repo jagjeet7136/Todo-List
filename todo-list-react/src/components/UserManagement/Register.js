@@ -30,7 +30,7 @@ export const Register = () => {
             password: password.current.value,
             confirmPassword: confirmPassword.current.value,
         }
-        axios.post(process.env.REACT_APP_COMMON_USER_ENDPOINT, newUser)
+        axios.post(process.env.REACT_APP_USER_REGISTER_LOCAL_ENDPOINT, newUser)
             .then(response => {
                 userFullName.current.value = "";
                 email.current.value = "";

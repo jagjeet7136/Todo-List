@@ -5,7 +5,7 @@ import styles from "./DeleteTask.module.css";
 export const DeleteTask = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const token = localStorage.getItem("token");
-    const deleteTaskEndpoint = process.env.REACT_APP_COMMON_TASK_ENDPOINT;
+    const deleteTaskEndpoint = process.env.REACT_APP_COMMON_TASK_LOCAL_ENDPOINT;
 
     const openDialog = () => {
         setIsOpen(true);

@@ -14,6 +14,7 @@ export const Profile = () => {
             ? authContext.user.imageUrl
             : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png"
     );
+    console.log(profileImage);
 
     const handleImageChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -29,7 +30,7 @@ export const Profile = () => {
 
     const uploadProfileImage = async (formData, authToken) => {
         try {
-            const response = await axios.post(process.env.REACT_APP_PROFILE_PICTURE_UPLOAD, formData, {
+            const response = await axios.post(process.env.REACT_APP_UPLOAD_USER_IMAGE_LOCAL_ENDPOINT, formData, {
                 headers: {
                     Authorization: `${authToken}`,
                     "Content-Type": "multipart/form-data"
