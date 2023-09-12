@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem('token');
     const storedLoggedIn = localStorage.getItem('loggedIn') === 'true';
     const storedUsername = localStorage.getItem("username");
-    const storedUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+    const storedUser = localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user")) : null;
     // const storedUser = localStorage.getItem("user");
     const [loggedIn, setLoggedIn] = useState(storedLoggedIn);
     const [token, setToken] = useState(storedToken);
@@ -22,13 +22,12 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [token, loggedIn, username, user]);
 
-    const login = (newToken, newUsername, user) => {
+    const login = (newToken, newUsername, newUser) => {
+        setUser(newUser);
         setToken(newToken);
         setLoggedIn(true);
         setUsername(newUsername);
-        setUser(user);
     };
-
     const setUserFunction = (newUser) => {
         setUser(newUser);
     }
@@ -40,7 +39,6 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("loggedIn");
-        localStorage.removeItem("user");
         localStorage.removeItem("user");
     };
 

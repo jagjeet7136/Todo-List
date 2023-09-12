@@ -27,7 +27,7 @@ export const Login = () => {
         axios
             .post(process.env.REACT_APP_USER_LOGIN_LOCAL_ENDPOINT, loginObject)
             .then((res) => {
-                axios.get(`${process.env.REACT_APP_COMMON_USER_LOCAL_ENDPOINT}/?username=${username.current.value}`, {
+                axios.get(`${process.env.REACT_APP_GET_USER_LOCAL_ENDPOINT}/?username=${username.current.value}`, {
                     headers: {
                         Authorization: res.data.token
                     }

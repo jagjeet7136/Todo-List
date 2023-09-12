@@ -10,11 +10,10 @@ export const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const storedUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
     const [profileImage, setProfileImage] = useState(
-        authContext.user.imageUrl !== null
+        authContext.user && authContext.user.imageUrl !== null
             ? authContext.user.imageUrl
             : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png"
     );
-    console.log(profileImage);
 
     const handleImageChange = (event) => {
         const selectedFile = event.target.files[0];
