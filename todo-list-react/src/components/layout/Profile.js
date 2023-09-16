@@ -74,26 +74,25 @@ export const Profile = () => {
 
         if (confirmDelete) {
             deleteProfileImageBackend(authContext.token);
-            setProfileImage(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png"
-            );
-            storedUser.imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
-            localStorage.setItem("user", JSON.stringify(storedUser));
-            authContext.setUserFunction(storedUser);
         }
     };
 
     const deleteProfileImageBackend = async (authToken) => {
         try {
-            const response = await axios.delete(process.env.REACT_APP_PROFILE_PICTURE_DELETE, {
+            const response = await axios.delete(process.env.REACT_APP_DELETE_USER_IMAGE_LOCAL_ENDPOINT, {
                 headers: {
                     Authorization: `${authToken}`
                 }
             });
 
             if (response.status === 200) {
+                setProfileImage(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png"
+                );
+                storedUser.imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
+                localStorage.setItem("user", JSON.stringify(storedUser));
+                authContext.setUserFunction(storedUser);
             } else {
-                console.error("Failed to upload profile image");
                 setErrorMessage("Cannot delete picture");
             }
         } catch (error) {
