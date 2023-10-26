@@ -21,10 +21,10 @@ public class Task {
 
     private String taskTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)  //FK ensures that every task is associated with a valid user
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;
+    private User user;   //In JPA we use class name instead of column name
 
     private LocalDate expiryDate;
 

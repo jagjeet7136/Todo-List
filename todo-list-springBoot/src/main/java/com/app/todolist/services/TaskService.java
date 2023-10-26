@@ -7,6 +7,7 @@ import com.app.todolist.exceptions.ValidationException;
 import com.app.todolist.model.request.TaskCreateRequest;
 import com.app.todolist.model.request.TaskUpdateRequest;
 import com.app.todolist.repository.TaskRepository;
+import com.app.todolist.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class TaskService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -49,6 +53,8 @@ public class TaskService {
             throw new ValidationException("Reminder date format Not Valid : " + taskCreateRequest.getReminder());
         }
         newTask.setNotes(taskCreateRequest.getNotes());
+        user.setTotalTasksCreated(user.getTotalTasksCreated()!=null ? user.getTotalTasksCreated()+1 : 1);
+        userRepository.save(user);
         return taskRepository.save(newTask);
     }
 
@@ -116,4 +122,15 @@ public class TaskService {
         return task;
     }
 
+    public void completeTask(Long taskId, User user) throws NotFoundException {
+        Task task = taskRepository.findByIdAndUser(taskId, user);
+        if(task==null) {
+            throw new NotFoundException("No task found with id : " + taskId);
+        }
+        else {
+            user.setCompletedTasks(user.getCompletedTasks()+1);
+        }
+        taskRepository.delete(task);
+        userRepository.save(user);
+    }
 }

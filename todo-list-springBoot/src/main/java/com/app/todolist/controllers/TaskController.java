@@ -71,4 +71,12 @@ public class TaskController {
         log.info("Task deleted successfully : {}", task);
         return ResponseEntity.ok(task);
     }
+
+    @PatchMapping("/completeTask")
+    public void completeTask(@NotNull @RequestParam Long taskId, Principal principal) throws NotFoundException {
+        log.info("Request received for completing a task with taskId : {}", taskId);
+        User loggedInUser = userService.getLoggedInUser(principal);
+        taskService.completeTask(taskId, loggedInUser);
+        log.info("Task completed successfully : {} of user : {}", taskId, loggedInUser);
+    }
 }

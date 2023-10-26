@@ -33,7 +33,16 @@ public class User implements UserDetails {
     private String imageUrl;
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
-    private List<Task> tasks;
+    private List<Task> tasks;   //OneToMany does not refer to Foreign Key while ManyToOne does
+
+    @Column
+    private Long totalTasksCreated;
+
+    @Column
+    private Long completedTasks;
+
+    @Column
+    private Long deletedTasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
