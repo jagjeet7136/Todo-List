@@ -119,18 +119,24 @@ public class TaskService {
             throw new NotFoundException("No task found with id : " + taskId);
         }
         taskRepository.delete(task);
+        user.setDeletedTasks(user.getDeletedTasks()!=null ? user.getDeletedTasks()+1 : 1);
         return task;
     }
 
-    public void completeTask(Long taskId, User user) throws NotFoundException {
+    public void completeTask(Long taskId, User user) throws NotFoundException, ValidationException {
         Task task = taskRepository.findByIdAndUser(taskId, user);
         if(task==null) {
             throw new NotFoundException("No task found with id : " + taskId);
         }
         else {
-            user.setCompletedTasks(user.getCompletedTasks()+1);
+            user.setCompletedTasks(user.getCompletedTasks()!=null ? user.getCompletedTasks()+1 : 1);
         }
-        taskRepository.delete(task);
+        try {
+            taskRepository.delete(task);
+        }
+        catch (Exception ex) {
+            throw new ValidationException("Some error occur while deleting task : " + taskId);
+        }
         userRepository.save(user);
     }
 }

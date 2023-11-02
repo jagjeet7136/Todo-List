@@ -73,7 +73,8 @@ public class TaskController {
     }
 
     @PatchMapping("/completeTask")
-    public void completeTask(@NotNull @RequestParam Long taskId, Principal principal) throws NotFoundException {
+    public void completeTask(@NotNull @RequestParam Long taskId, Principal principal) throws NotFoundException,
+            ValidationException {
         log.info("Request received for completing a task with taskId : {}", taskId);
         User loggedInUser = userService.getLoggedInUser(principal);
         taskService.completeTask(taskId, loggedInUser);
