@@ -1,7 +1,13 @@
 import styles from "./App.css";
 import { Dashboard } from "./components/Dashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Routes, Outlet, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import { AddTask } from "./components/task/AddTask";
 import { UpdateTask } from "./components/task/UpdateTask";
 import { Landing } from "./components/layout/Landing";
@@ -18,7 +24,8 @@ const PrivateRoute = () => {
   const loggedIn = authContext.loggedIn;
   const token = localStorage.getItem("token");
   const isTokenExpiredVal = isTokenExpired(token);
-  useLayoutEffect(() => {  //It ensures that logout happens after component rendering and before updating UI.
+  useLayoutEffect(() => {
+    //It ensures that logout happens after component rendering and before updating UI.
     if (isTokenExpiredVal) {
       authContext.logout();
     }
@@ -28,7 +35,7 @@ const PrivateRoute = () => {
     return <Navigate to="/login" />;
   }
   return <Outlet />;
-}
+};
 
 const PublicRoute = () => {
   const authContext = useContext(AuthContext);
@@ -37,7 +44,7 @@ const PublicRoute = () => {
     return <Navigate to="/dashboard" />;
   }
   return <Outlet />;
-}
+};
 
 const isTokenExpired = (token) => {
   if (!token) {
@@ -91,5 +98,7 @@ function App() {
     </AuthProvider>
   );
 }
+
+// this is a comment
 
 export default App;
