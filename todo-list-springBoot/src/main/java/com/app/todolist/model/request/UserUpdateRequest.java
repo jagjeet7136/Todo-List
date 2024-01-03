@@ -1,12 +1,12 @@
 package com.app.todolist.model.request;
 
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
 
 @Data
 public class UserUpdateRequest {
 
-    @NotBlank
-    private String userFullName;
+    private String oldPassword;
+    private String newPassword;
+    private String newConfirmPassword;
 
 }

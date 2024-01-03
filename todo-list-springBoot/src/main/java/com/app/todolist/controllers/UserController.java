@@ -63,7 +63,7 @@ public class UserController {
 
     @PatchMapping
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, Principal
-            principal) throws NotFoundException {
+            principal) throws ValidationException {
         log.info("Request received for user update {}", userUpdateRequest);
         User user = userService.getLoggedInUser(principal);
         User updatedUser = userService.updateUser(userUpdateRequest, user);
