@@ -53,9 +53,15 @@ public class UserService {
         return user;
     }
 
-    public User updateUser(UserUpdateRequest userUpdateRequest, User user) throws NotFoundException {
-        user.setUserFullName(userUpdateRequest.getUserFullName());
-        user = userRepository.save(user);
+    public User updateUser(UserUpdateRequest userUpdateRequest, User user) throws  ValidationException {
+        if(!bCryptPasswordEncoder.encode(userUpdateRequest.getOldPassword()).equals(user.getPassword())) {
+            throw new ValidationException("Old password is incorrect");
+        }
+        if(!userUpdateRequest.getNewPassword().trim().equals(userUpdateRequest.getNewConfirmPassword().trim())) {
+            throw new ValidationException("Passwords does not match");
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(userUpdateRequest.getNewPassword()));
+        userRepository.save(user);
         return user;
     }
 
