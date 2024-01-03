@@ -33,6 +33,7 @@
   align-items: center;
   padding: 30px 40px;
   height: 10vh;
+  border-bottom: 0.8px solid rgb(238, 238, 238);
 }
 
 .headerList div a {
