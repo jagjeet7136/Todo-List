@@ -54,10 +54,10 @@ public class UserService {
     }
 
     public User updateUser(UserUpdateRequest userUpdateRequest, User user) throws  ValidationException {
-        if(!bCryptPasswordEncoder.encode(userUpdateRequest.getOldPassword()).equals(user.getPassword())) {
+        if(!bCryptPasswordEncoder.matches(userUpdateRequest.getOldPassword(), user.getPassword())) {
             throw new ValidationException("Old password is incorrect");
         }
-        if(!userUpdateRequest.getNewPassword().trim().equals(userUpdateRequest.getNewConfirmPassword().trim())) {
+        if(!userUpdateRequest.getNewPassword().trim().equals(userUpdateRequest.getConfirmPassword().trim())) {
             throw new ValidationException("Passwords does not match");
         }
         user.setPassword(bCryptPasswordEncoder.encode(userUpdateRequest.getNewPassword()));

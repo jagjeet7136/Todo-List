@@ -7,6 +7,6 @@ public class UserUpdateRequest {
 
     private String oldPassword;
     private String newPassword;
-    private String newConfirmPassword;
+    private String confirmPassword;
 
 }
