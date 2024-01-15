@@ -14,8 +14,15 @@ export const Profile = () => {
   const oldPassword = useRef();
   const newPassword = useRef();
   const confirmPassword = useRef();
-
+  const [successMsg, setSuccessMsg] = useState("");
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [passwordUpdated, setPasswordUpdated] = useState(false);
+  const [showAccountDetails, setShowAccountDetails] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const authContext = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
@@ -128,9 +135,13 @@ export const Profile = () => {
   };
 
   const handleFormDisplay = () => {
-    if (displayPassword) {
+    if (showAccountDetails && !displayPassword) {
+      setDisplayPassword(true);
+      setShowAccountDetails(false);
+    } else if (!showAccountDetails && displayPassword) {
       setDisplayPassword(false);
-    } else setDisplayPassword(true);
+      setShowAccountDetails(true);
+    }
   };
 
   const handleProfileDisplay = () => {
@@ -142,25 +153,65 @@ export const Profile = () => {
   };
   fetchUserDetails();
 
-  const updatePassword = () => {
+  const handlePasswordToggle = (field) => {
+    switch (field) {
+      case "oldPassword":
+        setShowOldPassword(!showOldPassword);
+        break;
+      case "newPassword":
+        setShowNewPassword(!showNewPassword);
+        break;
+      default:
+        break;
+    }
+  };
+  const updatePassword = (evt) => {
+    evt.preventDefault();
+    setShowSuccessMsg(false);
+    setIsFormValid(true);
+
     const passwords = {
       oldPassword: oldPassword.current.value,
       newPassword: newPassword.current.value,
       confirmPassword: confirmPassword.current.value,
     };
-    axios
-      .patch(process.env.REACT_APP_USERUPDATE_LOCAL_ENDPOINT, passwords, {
-        headers: {
-          Authorization: `${authContext.token}`,
-        },
-      })
-      .then((response) => {
-        alert("Password Updated Successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Error");
-      });
+    if (
+      passwords.oldPassword !== "" &&
+      passwords.newPassword !== "" &&
+      passwords.confirmPassword !== ""
+    ) {
+      axios
+        .patch(process.env.REACT_APP_USERUPDATE_LOCAL_ENDPOINT, passwords, {
+          headers: {
+            Authorization: `${authContext.token}`,
+          },
+        })
+        .then((response) => {
+          setShowSuccessMsg(true);
+          setSuccessMsg("Password Updated Successfully");
+        })
+        .catch((error) => {
+          let errorMessage = "Error Changing Password";
+          if (error.response) {
+            if (
+              error.response.data.errors != null &&
+              error.response.data.errors.length > 0
+            ) {
+              errorMessage = error.response.data.errors[0];
+            } else if (
+              error.response.data.message != null &&
+              error.response.data.message.trim().length > 0
+            ) {
+              errorMessage = error.response.data.message;
+            }
+          }
+          setErrorMsg(errorMessage);
+          setIsFormValid(false);
+        });
+    } else {
+      setIsFormValid(false);
+      setErrorMsg("Please enter the correct password");
+    }
   };
 
   return (
@@ -203,9 +254,15 @@ export const Profile = () => {
 
               <div className={styles.profileNav}>
                 <hr />
-                <Link onClick={() => handleFormDisplay()}>Account Details</Link>
+                <Link
+                  onClick={() =>
+                    showAccountDetails ? null : handleFormDisplay()
+                  }
+                >
+                  Account Details
+                </Link>
                 <Link onClick={() => handleFormDisplay()}>Change Password</Link>
-                <Link>Logout</Link>
+                <Link onClick={() => authContext.logout()}>Logout</Link>
               </div>
             </div>
           </div>
@@ -217,7 +274,7 @@ export const Profile = () => {
               <form className={styles.formcontainer}>
                 <div className={formStyles.passwordContainer}>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showOldPassword ? "text" : "password"}
                     placeholder="Old Password"
                     ref={oldPassword}
                     className={`${formStyles.password} ${
@@ -226,14 +283,14 @@ export const Profile = () => {
                   />
                   <span
                     className={formStyles.passwordToggle}
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => handlePasswordToggle("oldPassword")}
                   >
-                    {showPassword ? "Hide" : "Show"}
+                    {showOldPassword ? "Hide" : "Show"}
                   </span>
                 </div>
                 <div className={formStyles.passwordContainer}>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showNewPassword ? "text" : "password"}
                     placeholder="New Password"
                     ref={newPassword}
                     className={`${formStyles.password} ${
@@ -242,9 +299,9 @@ export const Profile = () => {
                   />
                   <span
                     className={formStyles.passwordToggle}
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => handlePasswordToggle("newPassword")}
                   >
-                    {showPassword ? "Hide" : "Show"}
+                    {showNewPassword ? "Hide" : "Show"}
                   </span>
                 </div>
                 <div className={formStyles.passwordContainer}>
@@ -263,15 +320,51 @@ export const Profile = () => {
                     {showPassword ? "Hide" : "Show"}
                   </span>
                 </div>
+                <div
+                  className={`${formStyles.successMsgContainer}
+                    ${
+                      showSuccessMsg
+                        ? formStyles.successMsgContainer +
+                          " " +
+                          formStyles.active
+                        : ""
+                    }`}
+                >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLXFtnDBVOuZqvGW2E-Px5DdU8XU9nSoE9dg&usqp=CAU"
+                    alt=""
+                  ></img>
+                  <h6 className={formStyles.successMsg}>{successMsg}</h6>
+                </div>
+                <div
+                  className={`${formStyles.errorMessageContainer}
+                 ${
+                   !isFormValid
+                     ? formStyles.errorMessageContainer +
+                       " " +
+                       formStyles.active
+                     : ""
+                 }`}
+                >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9YISfL4Lm8FJPRneGwEq8_-
+                    9Nim7YeuMJMw&usqp=CAU"
+                    alt=""
+                  ></img>
+                  <h6 className={formStyles.errorMessage}>{errorMsg}</h6>
+                </div>
                 <div className={styles.submitBtnContainer}>
-                  <button id={styles.submitFileButton} onClick={updatePassword}>
+                  <button
+                    id={styles.submitFileButton}
+                    onClick={(evt) => updatePassword(evt)}
+                  >
                     Update Password
                   </button>
                 </div>
               </form>
             </div>
           )}
-          {displayPassword ? null : (
+          {showAccountDetails ? (
             <div className={styles.details}>
               <h3>Account Details</h3>
               <hr />
@@ -287,28 +380,18 @@ export const Profile = () => {
                 </div>
 
                 <div className={styles.formdata}>
-                  <label htmlFor="firstName">First Name:</label>
+                  <label htmlFor="firstName">Name:</label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
-                    placeholder={firstName.split(" ", 1)[0]}
+                    placeholder={firstName}
                     disabled
                   />
                 </div>
 
                 <div className={styles.formdata}>
-                  <label htmlFor="lastName">Last Name:</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    placeholder={firstName.split(" ").pop()}
-                    disabled
-                  />
-                </div>
-                <div className={styles.formdata}>
-                  <label htmlFor="lastName">Password:</label>
+                  <label htmlFor="password">Password:</label>
                   <input
                     type="password"
                     id="password"
@@ -318,7 +401,7 @@ export const Profile = () => {
                   />
                 </div>
               </form>
-              <div className={styles.submitBtnContainer}>
+              {/* {<div className={styles.submitBtnContainer}>
                 <button
                   id={styles.submitFileButton}
                   onClick={() => {
@@ -333,9 +416,9 @@ export const Profile = () => {
                 >
                   Update
                 </button>
-              </div>
+              </div>} */}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </>

@@ -4,6 +4,29 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  .changePassword {
+    width: 100%;
+  }
+}
+
+@media (max-width: 450px) {
+  .formdata {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .formdata > input {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  .changePassword {
+    width: 100%;
+  }
+
+  .changePassword > input {
+    width: 80%;
+  }
 }
 
 .changePassword {
